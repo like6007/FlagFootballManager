@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+
+<title>Flag Football Live Stats</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="team">
+
+        🟡 Thunders
+
+    </div>
+
+    <div class="score">
+
+        <span id="homeScore">0</span>
+
+        :
+
+        <span id="awayScore">0</span>
+
+    </div>
+
+    <div class="team">
+
+        🔵 Bears
+
+    </div>
+
+</div>
+
+<div class="down">
+
+    현재 다운
+
+    <select id="down">
+
+        <option>1st Down</option>
+        <option>2nd Down</option>
+        <option>3rd Down</option>
+        <option>4th Down</option>
+
+    </select>
+
+</div>
+
+<hr>
+
+<div class="playButtons">
+
+    <button onclick="selectPlay('PASS')">
+
+        🏈 PASS
+
+    </button>
+
+    <button onclick="selectPlay('RUN')">
+
+        🏃 RUN
+
+    </button>
+
+</div>
+
+<div id="playArea">
+
+</div>
+
+<hr>
+
+<h2>
+
+최근 플레이
+
+</h2>
+
+<div id="playLog">
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
