@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FFM - PFL 운영 플랫폼 v1.25 (Cloud)</title>
+    <title>FlagFootball Manager by PFL v2.01 (Cloud)</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -14,7 +14,7 @@
         .navbar { background: white; padding: 0 20px; display: flex; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; height: 60px; }
         .logo-container { display: flex; align-items: center; gap: 12px; margin-right: 20px; cursor: pointer; }
         .main-logo-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+        .logo-text { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
         .version-badge { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 10px; color: #555; margin-left: 5px; }
         .season-selector { margin-right: auto; display: flex; align-items: center; gap: 10px; }
         .season-selector select { padding: 6px 12px; border: none; background: #f0f4f4; border-radius: 6px; font-weight: bold; color: var(--primary); font-size: 13px; outline: none; cursor: pointer;}
@@ -77,7 +77,8 @@
         .act-Bz { background: #fcf3cf; border-color: #f1c40f; color: #d35400; }
         .action-btn:active { filter: brightness(0.85); transform: scale(0.92); }
         
-        .log-box { background: #1e293b; color: #a5b4fc; padding: 12px; border-radius: 8px; font-family: monospace; overflow-y: auto; flex: 1; min-height: 200px; font-size: 12px;}
+        /* 스크롤 및 레이아웃 최적화 적용 */
+        .log-box { background: #1e293b; color: #a5b4fc; padding: 12px; border-radius: 8px; font-family: monospace; overflow-y: auto; height: 350px; font-size: 12px;}
         .log-entry { margin-bottom: 5px; border-bottom: 1px solid #334155; padding-bottom: 4px; display:flex; align-items:center; gap:6px;}
         .sch-input-bar { display: flex; gap: 10px; margin-bottom: 15px; background: #f9f9f9; padding: 12px; border-radius: 8px; align-items: center; flex-wrap:wrap;}
         .sch-input-bar input, .sch-input-bar select { padding: 8px; border: 1px solid #ddd; border-radius: 6px; outline: none; font-size:13px; }
@@ -104,8 +105,9 @@
         .report-table th { border: 1px solid #eee; padding: 10px 8px; background: #f4f6f6; font-weight: 800; color:var(--primary); width: 25%; }
         .report-table td { border: 1px solid #eee; padding: 10px 8px; width: 25%; font-weight:600; color:#444;}
         
+        /* 표 상단 제목 스크롤 고정 적용 */
         .live-stats-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: center; background: white; }
-        .live-stats-table th { background: #f4f6f6; color: #555; padding: 6px; border-bottom: 2px solid #ddd; }
+        .live-stats-table th { background: #f4f6f6; color: #555; padding: 8px 6px; border-bottom: 2px solid #ddd; position: sticky; top: 0; z-index: 10;}
         .live-stats-table td { padding: 6px; border-bottom: 1px solid #eee; }
         .highlight-stat { color: var(--red-team); font-weight: 900; }
         
@@ -122,7 +124,7 @@
     <nav class="navbar">
         <div class="logo-container" onclick="switchTab('home')">
             <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/2ac1bc/ffffff?text=PFL'">
-            <div><div class="logo-text">FFM <span class="version-badge">v1.25 ☁️</span></div></div>
+            <div><div class="logo-text">FlagFootball Manager <span class="version-badge">v2.01 ☁️</span></div></div>
         </div>
         <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         <div class="nav-menu">
@@ -220,6 +222,7 @@
                             <span style="color:#e74c3c; font-weight:900; font-size:14px;">⚔️ 공격</span>
                             <select id="game-team-offense" class="form-select" style="font-weight:900; pointer-events:none; background:transparent; border:none; width:90px; text-align:center; font-size:15px; color:#e74c3c;"></select>
                             
+                            <!-- 공수전환 버튼 -->
                             <button class="btn-primary" style="padding:6px 12px; background:#2d3436; border-radius:20px; font-size:12px; display:flex; align-items:center; gap:5px;" onclick="switchOffDef()">
                                 <span id="live-score-off" style="color:#ff7675; font-size:16px;">0</span> 🔄 <span id="live-score-def" style="color:#74b9ff; font-size:16px;">0</span>
                             </button>
@@ -256,12 +259,14 @@
                                 <span style="font-weight:bold; font-size:13px; color:#555;">📝 실시간 경기 로그</span>
                                 <button class="btn-primary" style="background:#e74c3c; padding:4px 8px; font-size:11px;" onclick="undoLastPlay()">↶ 기록 취소</button>
                             </div>
-                            <div class="log-box" id="game-log" style="height:180px;"></div>
+                            <!-- 높이 고정 및 스크롤 -->
+                            <div class="log-box" id="game-log"></div>
                         </div>
                         
                         <div style="flex:2; min-width:350px;">
                             <span style="font-weight:bold; font-size:13px; color:#555; display:inline-block; margin-bottom:5px;">📊 실시간 선수 통계</span>
-                            <div style="overflow-x:auto; background:#fff; border-radius:8px; border:1px solid #eee; height:180px;"><div id="live-stats-table-container"></div></div>
+                            <!-- 높이 고정 및 스크롤 -->
+                            <div style="overflow-y:auto; background:#fff; border-radius:8px; border:1px solid #eee; height:350px;"><div id="live-stats-table-container"></div></div>
                         </div>
                     </div>
                 </div>
@@ -270,7 +275,7 @@
             </div>
         </div>
 
-        <!-- [순위] 탭 (팀 순위 세부 지표 수식 및 테이블 분리 적용) -->
+        <!-- [순위] 탭 -->
         <div id="rank" class="tab-content">
             <div class="sub-tab-group">
                 <button class="sub-tab-btn active" onclick="switchRankSubTab('team')" id="tab-btn-team">팀 순위</button>
@@ -719,23 +724,21 @@
              }; reader.readAsText(file, "utf-8"); e.target.value = '';
         }
 
-        // --- 스탯 계산 (수식 점검 수정 완료) ---
+        // --- 스탯 계산 (v2.01 핵심: AR, P, PF, No stats 기준 다운 카운트) ---
         function getTeamMatchStats(md) {
             let tStats = {};
-            let currentSequence = null;
             
             getLogs().filter(l => l.matchDay === md).forEach(l => {
-                // v1.25 수정: 이름표를 advance, defSucc, run, catch, pass, pf, td, xp 등 정확하게 통일
                 if(!tStats[l.team] && l.team !== '-') tStats[l.team] = { pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0 };
                 
-                if(l.action !== 'BEST') {
-                    let seqKey = `${l.half}-${l.possession}-${l.down}`;
-                    if(currentSequence !== seqKey) {
-                        currentSequence = seqKey;
-                        if(l.possession && l.possession !== '-') {
-                            if(!tStats[l.possession]) tStats[l.possession] = { pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0 };
-                            if(l.down === 'xP') tStats[l.possession].xpDown++;
-                            else if(l.down !== '-') tStats[l.possession].offDown++; 
+                // v2.01: 핵심 액션이 발생했을 때만 다운 카운트 증가
+                if (['AR', 'P', 'PF', 'No stats'].includes(l.action)) {
+                    if (l.possession && l.possession !== '-') {
+                        if(!tStats[l.possession]) tStats[l.possession] = { pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0 };
+                        if (l.down === 'xP') {
+                            tStats[l.possession].xpDown++;
+                        } else {
+                            tStats[l.possession].offDown++;
                         }
                     }
                 }
@@ -776,7 +779,6 @@
                     else if(s1 < s2) { tStats[s.team2].w++; tStats[s.team1].l++; tStats[s.team2].pts += 3; }
                     else { tStats[s.team1].d++; tStats[s.team2].d++; tStats[s.team1].pts += 1; tStats[s.team2].pts += 1; }
 
-                    // v1.25 수정: 이름표 통일하여 완벽하게 데이터 합산
                     ['advance','defSucc','run','catch','pass','pf','td','xp'].forEach(k => {
                         tStats[s.team1][k] += mStats[s.team1] ? (mStats[s.team1][k]||0) : 0;
                         tStats[s.team2][k] += mStats[s.team2] ? (mStats[s.team2][k]||0) : 0;
@@ -788,7 +790,14 @@
                 }
             });
 
-            const sortedTeams = Object.keys(tStats).map(t => ({team: t, ...tStats[t]})).sort((a,b) => b.pts - a.pts);
+            // v2.01: 동률 시 타이 브레이커 완벽 적용 (승점 -> 득실차 -> 적은 패배 -> 다득점 순)
+            const sortedTeams = Object.keys(tStats).map(t => ({team: t, ...tStats[t]})).sort((a,b) => {
+                if (b.pts !== a.pts) return b.pts - a.pts; // 1순위: 승점 높은 순
+                let gdA = a.gf - a.ga; let gdB = b.gf - b.ga;
+                if (gdB !== gdA) return gdB - gdA;         // 2순위: 득실차 높은 순
+                if (a.l !== b.l) return a.l - b.l;         // 3순위: 패배가 적은 순 (오름차순)
+                return b.gf - a.gf;                        // 4순위: 다득점 순
+            });
             
             let sHtml = `<table class="adv-table"><tr><th>순위</th><th>팀</th><th>승점</th><th>승</th><th>무</th><th>패</th><th>득점</th><th>실점</th><th>득실차</th></tr>`;
             sortedTeams.forEach((t, i) => {
@@ -798,7 +807,6 @@
             sHtml += `</table>`;
             if(document.getElementById('rank-team-points-box')) document.getElementById('rank-team-points-box').innerHTML = sHtml;
 
-            // v1.25 수정: 선생님께서 주신 수식을 100% 반영하여 계산
             let dHtml = `<table class="adv-table"><tr><th>팀</th><th>경기수</th><th>공격 다운</th><th>수비 다운</th><th>전진 성공</th><th>전진성공률</th><th>수비성공</th><th>수비성공률</th><th>러닝성공</th><th>패스성공</th><th>패스성공률</th><th>터치다운</th><th>xP</th><th>xP 성공률</th><th>경기당 득점</th><th>경기당 실점</th><th>경기당 공격다운</th><th>경기당 수비다운</th></tr>`;
             sortedTeams.forEach(t => {
                 let g = t.games || 1;
@@ -807,29 +815,15 @@
                 let passR = (t.pass + t.pf) > 0 ? ((t.pass/(t.pass+t.pf))*100).toFixed(1)+'%' : '0%';
                 let xpR = t.xpD > 0 ? ((t.xp/t.xpD)*100).toFixed(1)+'%' : '0%';
                 
-                let ptsPerG = (t.gf / g).toFixed(1);
-                let gaPerG = (t.ga / g).toFixed(1);
-                let offDPerG = (t.offD / g).toFixed(1);
-                let defDPerG = (t.defD / g).toFixed(1);
+                let ptsPerG = (t.gf / g).toFixed(1); let gaPerG = (t.ga / g).toFixed(1);
+                let offDPerG = (t.offD / g).toFixed(1); let defDPerG = (t.defD / g).toFixed(1);
                 
                 dHtml += `<tr><td><b style="color:${getTeamColor(t.team)};">${t.team}</b></td>
-                          <td>${t.games}</td>
-                          <td>${t.offD}</td>
-                          <td>${t.defD}</td>
-                          <td>${t.advance}</td>
-                          <td style="color:var(--red-team); font-weight:bold;">${advR}</td>
-                          <td>${t.defSucc}</td>
-                          <td style="color:var(--red-team); font-weight:bold;">${defR}</td>
-                          <td>${t.run}</td>
-                          <td>${t.pass}</td>
-                          <td style="color:var(--red-team); font-weight:bold;">${passR}</td>
-                          <td>${t.td}</td>
-                          <td>${t.xp}</td>
-                          <td style="color:var(--red-team); font-weight:bold;">${xpR}</td>
-                          <td>${ptsPerG}</td>
-                          <td>${gaPerG}</td>
-                          <td>${offDPerG}</td>
-                          <td>${defDPerG}</td></tr>`;
+                          <td>${t.games}</td><td>${t.offD}</td><td>${t.defD}</td><td>${t.advance}</td>
+                          <td style="color:var(--red-team); font-weight:bold;">${advR}</td><td>${t.defSucc}</td><td style="color:var(--red-team); font-weight:bold;">${defR}</td>
+                          <td>${t.run}</td><td>${t.pass}</td><td style="color:var(--red-team); font-weight:bold;">${passR}</td>
+                          <td>${t.td}</td><td>${t.xp}</td><td style="color:var(--red-team); font-weight:bold;">${xpR}</td>
+                          <td>${ptsPerG}</td><td>${gaPerG}</td><td>${offDPerG}</td><td>${defDPerG}</td></tr>`;
             });
             dHtml += `</table>`;
             if(document.getElementById('rank-team-details-box')) document.getElementById('rank-team-details-box').innerHTML = dHtml;
@@ -910,6 +904,9 @@
         function switchOffDef() {
             const offSel = document.getElementById('game-team-offense'); const defSel = document.getElementById('game-team-defense');
             let temp = offSel.value; offSel.value = defSel.value; defSel.value = temp;
+            
+            // v2.01: 공수전환 시 자동으로 1st Down 선택
+            setDown('1st');
             loadMatchPlayers();
         }
 
@@ -1060,7 +1057,9 @@
             const getMax = (key) => statsArr.length ? Math.max(...statsArr.map(p => p[key])) : 0;
             const maxes = { AR: getMax('AR'), P: getMax('P'), AC: getMax('AC'), TD: getMax('TD'), xP: getMax('xP'), F: getMax('F'), C: getMax('C'), I: getMax('I'), Bz: getMax('Bz') };
 
-            let tableHTML = `<table class="live-stats-table"><tr><th>이름</th><th>소속팀</th><th>AR</th><th>P</th><th>AC</th><th>TD</th><th>xP</th><th>F</th><th>C</th><th>I</th><th>Bz</th></tr>`;
+            let tableHTML = `<table class="live-stats-table">
+                <thead><tr><th>이름</th><th>소속팀</th><th>AR</th><th>P</th><th>AC</th><th>TD</th><th>xP</th><th>F</th><th>C</th><th>I</th><th>Bz</th></tr></thead>
+                <tbody>`;
             statsArr.forEach(p => {
                 const isMax = (key) => (p[key] > 0 && p[key] === maxes[key]) ? 'highlight-stat' : '';
                 const isSub = p.team !== p.playingFor;
@@ -1073,7 +1072,7 @@
                     <td class="${isMax('F')}">${p.F}</td><td class="${isMax('C')}">${p.C}</td><td class="${isMax('I')}">${p.I}</td><td class="${isMax('Bz')}">${p.Bz}</td>
                 </tr>`;
             });
-            tableHTML += `</table>`;
+            tableHTML += `</tbody></table>`;
             document.getElementById('live-stats-table-container').innerHTML = tableHTML;
         }
 
@@ -1105,7 +1104,7 @@
             saveToDB(); document.getElementById('mvp-modal').style.display = 'none'; alert(`BEST PLAYER가 등록되었습니다!`); renderLogs(); updateLiveScoreAndStats();
         }
         
-        function endGame() { const md = document.getElementById('game-md-select').value; if(!md) return; alert(`[${md}] 경기가 종료되었습니다. 순위 탭에 결과가 반영되었습니다.`); }
+        function endGame() { const md = document.getElementById('game-md-select').value; if(!md) return alert(`[${md}] 경기가 종료되었습니다. 순위 탭에 결과가 반영되었습니다.`); }
 
         // --- 리뷰 탭 ---
         function populateReviewSelect() {
@@ -1252,7 +1251,6 @@
             const team = document.getElementById('report-team-select').value; if(!team) return;
             document.getElementById('team-report-result').style.display = 'block';
             
-            // v1.25 수정: 이름표 통일
             let tStats = {games:0, w:0, d:0, l:0, pts:0, gf:0, ga:0, offD:0, defD:0, run:0, pAtt:0, pass:0, pf:0, advance:0, defSucc:0, td:0, xp:0};
             let playedMDs = [...new Set(getLogs().map(l => l.matchDay))];
             
