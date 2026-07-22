@@ -118,7 +118,7 @@
         .report-paper { border: 2px solid var(--text-dark); padding: 25px; border-radius: 8px; background: #fff; margin-top: 15px; display: none; box-shadow: 4px 4px 15px rgba(0,0,0,0.06);}
         .report-title-sec { text-align: center; border-bottom: 4px solid var(--text-dark); padding-bottom: 15px; margin-bottom: 20px; }
         .report-score-sec { display: flex; justify-content: center; align-items: center; gap: 20px; font-size: 24px; font-weight: 900; margin-bottom: 25px; }
-        .score-box-review { background:var(--text-dark); color:white; padding:6px 20px; border-radius:12px; }
+        .score-box-review { background:var(--text-dark); color:white; padding:5px 18px; border-radius:12px; }
         
         .vs-table { width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px; font-size:14px; }
         .vs-table th { background: #efebe9; padding: 10px; color: var(--text-dark); border-bottom: 2px solid #d7ccc8; }
@@ -337,7 +337,7 @@
         <!-- [리뷰] 탭 -->
         <div id="review" class="tab-content">
             <div class="sub-tab-group">
-                <button class="sub-tab-btn active" onclick="switchReviewSubTab('view')" id="tab-btn-rev-view">📰 리뷰 보기</button>
+                <button class="sub-tab-btn active" onclick="switchReviewSubTab('view')" id="tab-btn-rev-view">📰 ㄹ</button>
                 <button class="sub-tab-btn" onclick="switchReviewSubTab('write')" id="tab-btn-rev-write">🔒 매치 리뷰 작성</button>
             </div>
             
@@ -643,7 +643,7 @@
 
         function switchTab(tabId) {
             if(tabId === 'settings' && !isSettingsUnlocked) {
-                let pwd = prompt("관리자 비밀번호(2154)를 입력하세요.");
+                let pwd = prompt("관리자 비밀번호를 입력하세요.");
                 if(pwd === "2154") { isSettingsUnlocked = true; alert("인증 성공."); } else { return; }
             }
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -665,7 +665,7 @@
         
         function switchReviewSubTab(type) {
             if(type === 'write') {
-                let pwd = prompt("리뷰 작성은 관리자 전용입니다. 비밀번호(2154)를 입력하세요.");
+                let pwd = prompt("리뷰 작성은 관리자 전용입니다. 비밀번호를 입력하세요.");
                 if(pwd !== "2154") return alert("비밀번호 불일치.");
             }
             document.querySelectorAll('#review .sub-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1280,7 +1280,7 @@
 
             let matchKey = currentSeason + '_' + md;
             if (FFM_DB.lockedMatches[matchKey]) {
-                let pwd = prompt("경기 기록 잠금을 해제하시려면 비밀번호(2154)를 입력하세요.");
+                let pwd = prompt("경기 기록 잠금을 해제하시려면 비밀번호를 입력하세요.");
                 if (pwd === "2154") {
                     FFM_DB.lockedMatches[matchKey] = false; saveToDB();
                     alert(`[${md}] 경기 기록이 다시 활성화되었습니다.`);
