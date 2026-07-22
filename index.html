@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FlagFootball Manager by PFL v2.07 (Responsive)</title>
-    <!-- 차트, Firebase, 엑셀 백업(SheetJS) 라이브러리 -->
+    <title>FlagFootball Manager by PFL v2.08 (Mobile UI)</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -14,16 +13,17 @@
         :root { --primary: #a0522d; --bg-color: #f4f4f2; --text-dark: #3e2723; --text-light: #6d4c41; --red-team: #e74c3c; --blue-team: #3498db; --green-btn: #4caf50;}
         body { font-family: 'Malgun Gothic', sans-serif; margin: 0; background: var(--bg-color); color: var(--text-dark); }
         
-        .navbar { background: white; padding: 0 20px; display: flex; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; height: 60px; }
-        .logo-container { display: flex; align-items: center; gap: 12px; margin-right: 20px; cursor: pointer; }
-        .main-logo-img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo-text { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-dark); white-space: nowrap; }
-        .version-badge { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 10px; color: #555; margin-left: 5px; }
-        .season-selector { margin-right: auto; display: flex; align-items: center; gap: 10px; }
-        .season-selector select { padding: 6px 12px; border: none; background: #efebe9; border-radius: 6px; font-weight: bold; color: var(--primary); font-size: 13px; outline: none; cursor: pointer;}
+        /* 네비게이션 및 헤더 레이아웃 최적화 */
+        .navbar { background: white; padding: 10px 20px 0 20px; display: flex; flex-direction: column; box-shadow: 0 2px 15px rgba(0,0,0,0.08); position: sticky; top: 0; z-index: 100; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; }
+        .logo-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .main-logo-img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo-text { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; flex-wrap: wrap;}
+        .version-badge { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 11px; color: #555; transition: 0.3s;}
+        .season-selector select { padding: 4px 10px; border: none; background: #efebe9; border-radius: 6px; font-weight: bold; color: var(--primary); font-size: 13px; outline: none; cursor: pointer;}
         
-        .nav-menu { display: flex; gap: 5px; height: 100%; overflow-x: auto; white-space: nowrap; }
-        .nav-btn { background: none; border: none; padding: 0 10px; height: 60px; font-size: 14px; font-weight: bold; color: var(--text-light); cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; }
+        .nav-menu { display: flex; gap: 5px; width: 100%; overflow-x: auto; white-space: nowrap; border-top: 1px solid #f0f0f0; padding-top: 4px;}
+        .nav-btn { background: none; border: none; padding: 0 10px; height: 40px; font-size: 14px; font-weight: bold; color: var(--text-light); cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s; }
         .nav-btn:hover, .nav-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
         
         .container { padding: 15px; max-width: 1400px; margin: 0 auto; }
@@ -43,8 +43,9 @@
         .min-grid th { text-align: left; padding: 8px 5px; color: #aaa; font-size: 12px; font-weight: normal; border-bottom: 2px solid #eee; }
         .min-grid td { padding: 6px 5px; border-bottom: 1px solid #f0f0f0; }
         .min-grid input { width: 90%; padding: 6px 0; border: none; background: transparent; font-size: 13px; outline: none; }
-        .del-btn { background: #ff7675; color: white; border: none; border-radius: 6px; width: 24px; height: 24px; cursor: pointer; display:flex; justify-content:center; align-items:center;}
-        .edit-btn { background: #f39c12; color: white; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-size: 12px; font-weight: bold;}
+        .del-btn, .edit-btn { color: white; border: none; border-radius: 6px; width: 26px; height: 26px; cursor: pointer; display:flex; justify-content:center; align-items:center; font-size: 12px; font-weight: bold; padding: 0; flex-shrink: 0;}
+        .del-btn { background: #ff7675; }
+        .edit-btn { background: #f39c12; }
         .color-picker-btn { width: 24px; height: 24px; padding: 0; border: none; border-radius: 50%; cursor: pointer; border: 2px solid #ddd; }
 
         .game-controls-wrapper { display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #eee; }
@@ -59,9 +60,11 @@
 
         .game-team-block { padding: 10px; border-radius: 8px; border: 2px solid transparent; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.04);}
         .game-team-header { display: flex; align-items: center; padding: 6px 12px; border-radius: 4px; font-weight: 900; margin-bottom: 8px; font-size: 15px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.08); justify-content: space-between;}
-        .game-player-row { display: flex; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.03); padding: 5px 0; overflow-x: auto; }
-        .game-player-name { width: 85px; min-width: 75px; font-weight: 800; font-size: 13px; color: #333; display:flex; align-items:center; gap:3px;}
+        
+        .game-player-row { display: flex; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.03); padding: 5px 0; }
+        .game-player-name { width: 85px; min-width: 75px; font-weight: 800; font-size: 13px; color: #333; display:flex; align-items:center; gap:3px; flex-shrink: 0;}
         .sub-btn { background:#eee; border:none; border-radius:4px; font-size:10px; padding:2px 4px; cursor:pointer;}
+        .game-action-wrapper { display: flex; align-items: center; }
         .game-action-group { display: flex; gap: 3px; padding: 0 6px; border-right: 1px dashed #ddd;}
         .game-action-group:last-child { border-right: none; }
         
@@ -101,7 +104,6 @@
 
         .review-block { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
         .report-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 15px; }
-        @media (max-width: 768px) { .report-grid { grid-template-columns: 1fr; } }
         .csv-input { display: none; }
 
         .report-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background: white; border: 2px solid var(--text-dark);}
@@ -113,9 +115,10 @@
         .live-stats-table td { padding: 6px; border-bottom: 1px solid #eee; }
         .highlight-stat { color: var(--red-team); font-weight: 900; }
         
-        .report-paper { border: 2px solid var(--text-dark); padding: 30px; border-radius: 8px; background: #fff; margin-top: 15px; display: none; box-shadow: 4px 4px 15px rgba(0,0,0,0.06);}
+        .report-paper { border: 2px solid var(--text-dark); padding: 25px; border-radius: 8px; background: #fff; margin-top: 15px; display: none; box-shadow: 4px 4px 15px rgba(0,0,0,0.06);}
         .report-title-sec { text-align: center; border-bottom: 4px solid var(--text-dark); padding-bottom: 15px; margin-bottom: 20px; }
-        .report-score-sec { display: flex; justify-content: center; align-items: center; gap: 30px; font-size: 32px; font-weight: 900; margin-bottom: 30px; }
+        .report-score-sec { display: flex; justify-content: center; align-items: center; gap: 20px; font-size: 24px; font-weight: 900; margin-bottom: 25px; }
+        .score-box-review { background:var(--text-dark); color:white; padding:6px 20px; border-radius:12px; }
         
         .vs-table { width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px; font-size:14px; }
         .vs-table th { background: #efebe9; padding: 10px; color: var(--text-dark); border-bottom: 2px solid #d7ccc8; }
@@ -125,47 +128,43 @@
         .vs-table td:last-child { text-align: left; font-weight: bold; width: 35%; color: var(--primary); }
         
         .review-team-split { display: flex; gap: 20px; background: #f4f6f6; padding: 15px; border-radius: 8px; }
-        .cloud-status { position: fixed; bottom: 20px; right: 20px; background: #3e2723; color: white; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 6px; z-index: 1000; }
-        .cloud-status.online::before { content: ''; display: inline-block; width: 8px; height: 8px; background: #4caf50; border-radius: 50%; box-shadow: 0 0 6px #4caf50;}
 
         /* ============================================================================ */
-        /* 📱 v2.07 핵심: 스마트폰 모바일 화면 반응형 스타일 (Media Query) */
+        /* 📱 v2.08 핵심: 스마트폰 모바일 화면 반응형 스타일 완벽 적용 */
         /* ============================================================================ */
         @media (max-width: 768px) {
-            .navbar { height: auto; padding: 10px; flex-wrap: wrap; }
-            .logo-container { margin-right: 10px; }
-            .logo-text { font-size: 15px; }
-            .nav-menu { width: 100%; justify-content: space-between; margin-top: 8px; border-top: 1px solid #eee; padding-top: 5px; }
-            .nav-btn { height: 40px; padding: 0 6px; font-size: 12px; }
-            .container { padding: 10px; }
-            .card { padding: 10px; }
+            .navbar { padding: 10px 15px 0 15px; }
+            .logo-text { font-size: 14px; }
+            .nav-btn { font-size: 13px; padding: 0 8px; height: 35px; }
             
-            /* 기록 탭 스마트폰 최적화 */
-            .action-btn { width: 30px; height: 30px; font-size: 10px; }
-            .game-player-name { width: 68px; font-size: 11px; }
-            .game-action-group { gap: 2px; padding: 0 3px; }
-            .game-row-3 { font-size: 11px; gap: 8px; }
-            .state-btn { padding: 6px 10px; font-size: 11px; }
+            .report-grid { grid-template-columns: 1fr; }
+            
+            /* 기록 탭 스탯 버튼 화면 이탈 방지 (세로 정렬 및 래핑) */
+            .game-player-row { flex-direction: column; align-items: flex-start; padding: 8px 0; gap: 4px;}
+            .game-player-name { width: 100%; font-size: 14px; margin-bottom: 2px;}
+            .game-action-wrapper { display: flex; width: 100%; flex-wrap: wrap; gap: 4px; }
+            .game-action-group { border-right: none !important; padding: 0 !important; gap: 4px; flex-wrap: wrap;}
+            .action-btn { width: 32px; height: 32px; font-size: 10px; }
             
             /* 리뷰 탭 팀 피드백 세로 스택 */
-            .review-team-split { flex-direction: column; gap: 10px; }
+            .review-team-split { flex-direction: column; gap: 15px; }
             .review-team-split div[style*="width:2px"] { display: none; }
-            .report-paper { padding: 15px; }
-            .report-score-sec { font-size: 24px; gap: 15px; }
             
             /* 개인 기록 TOP 10 모바일 정렬 */
-            #rank-ind-box { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important; }
+            #rank-ind-box { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important; }
         }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="logo-container" onclick="switchTab('home')">
-            <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/a0522d/ffffff?text=PFL'">
-            <div><div class="logo-text">FlagFootball Manager <span class="version-badge">v2.07 ☁️</span></div></div>
+        <div class="header-top">
+            <div class="logo-container" onclick="switchTab('home')">
+                <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/a0522d/ffffff?text=PFL'">
+                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator">v2.08 ☁️</span></div>
+            </div>
+            <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         </div>
-        <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         <div class="nav-menu">
             <button class="nav-btn active" onclick="switchTab('home')">홈</button>
             <button class="nav-btn" onclick="switchTab('schedule')">일정</button>
@@ -303,7 +302,6 @@
                         <div style="flex:2; min-width:300px; width:100%;">
                             <span style="font-weight:bold; font-size:13px; color:#555; display:inline-block; margin-bottom:5px;">📊 실시간 선수 통계</span>
                             <div style="overflow-y:auto; background:#fff; border-radius:8px; border:1px solid #eee; max-height:230px;"><div id="live-stats-table-container"></div></div>
-                            
                             <div id="live-team-stats-container"></div>
                         </div>
                     </div>
@@ -496,8 +494,6 @@
             </div>
         </div>
     </div>
-    
-    <div id="cloud-status" class="cloud-status">☁️ 클라우드 연결 대기 중...</div>
 
     <script>
         // ============================================================================
@@ -523,11 +519,19 @@
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
             isCloudActive = true;
-            document.getElementById('cloud-status').innerText = '☁️ 클라우드 동기화 됨';
-            document.getElementById('cloud-status').classList.add('online');
+            const indicator = document.getElementById('cloud-indicator');
+            if(indicator) {
+                indicator.style.background = '#e8f5e9';
+                indicator.style.color = '#2e7d32';
+            }
         } catch (error) {
             console.error("Firebase 초기화 에러:", error);
-            document.getElementById('cloud-status').innerText = '⚠️ 연결 실패 (오프라인 모드)';
+            const indicator = document.getElementById('cloud-indicator');
+            if(indicator) {
+                indicator.innerText = 'v2.08 ⚠️오프라인';
+                indicator.style.background = '#ffebee';
+                indicator.style.color = '#c62828';
+            }
         }
         // ============================================================================
 
@@ -779,6 +783,8 @@
             const sch = getSchedule().find(s => s.md === md);
             if(sch) { document.getElementById('sch-date').value = sch.date; document.getElementById('sch-md').value = sch.md; document.getElementById('sch-team1').value = sch.team1; document.getElementById('sch-team2').value = sch.team2; document.getElementById('sch-md').focus(); }
         }
+        
+        // v2.08: 일정 탭 점수판 및 수정 버튼 UI 사이즈 조정
         function renderSchedule() {
             const list = document.getElementById('schedule-list'); list.innerHTML = ''; const cSch = getSchedule();
             cSch.forEach(s => {
@@ -791,7 +797,7 @@
                     <div style="color:#999; font-size:12px; width:70px;">${s.date}<br><strong style="color:var(--primary);">${s.md}</strong></div>
                     <div style="flex:1; display:flex; justify-content:center; align-items:center; gap:8px; font-size:16px; font-weight:800;">
                         <div style="flex:1; text-align:right;">${s.team1}</div>
-                        <div style="background:var(--text-dark); color:white; padding:4px 12px; border-radius:20px; font-size:18px; min-width:50px; text-align:center;">${tStats[s.team1]?.pts||0} : ${tStats[s.team2]?.pts||0}</div>
+                        <div style="background:var(--text-dark); color:white; padding:2px 10px; border-radius:12px; font-size:14px; min-width:40px; text-align:center;">${tStats[s.team1]?.pts||0} : ${tStats[s.team2]?.pts||0}</div>
                         <div style="flex:1; text-align:left;">${s.team2}</div>
                     </div>
                     <div style="display:flex; gap:4px; width:60px; justify-content:flex-end;">
@@ -1063,6 +1069,7 @@
             applyMatchLockState();
         }
 
+        // v2.08: 버튼 그룹 감싸기(모바일 줄바꿈 최적화)
         function createTeamBlock(teamName, players, role) {
             const div = document.createElement('div'); div.className = 'game-team-block';
             let bg = role === 'offense' ? '#fff5f5' : '#f0f8ff'; let borderCol = role === 'offense' ? '#ff7675' : '#74b9ff';
@@ -1084,12 +1091,13 @@
                 
                 html += `<div class="game-player-row">
                     <div class="game-player-name" style="${subStyle}">${displayPlayer.name} <button class="sub-btn" onclick="openSubModal('${p.id}', '${teamName}')" title="결석생 교체">🔄</button></div>
-                    <div class="game-action-group">`;
+                    <div class="game-action-wrapper">
+                        <div class="game-action-group">`;
                 
                 offActs.forEach(act => html += `<button class="action-btn act-${act}" onclick="recordPlay('${displayPlayer.id}', '${displayPlayer.name}', '${teamName}', '${act}')">${act}</button>`);
                 html += `</div><div class="game-action-group" style="border:none;">`;
                 defActs.forEach(act => html += `<button class="action-btn act-${act}" onclick="recordPlay('${displayPlayer.id}', '${displayPlayer.name}', '${teamName}', '${act}')">${act}</button>`);
-                html += `</div></div>`;
+                html += `</div></div></div>`;
             });
             div.innerHTML = html; return div;
         }
@@ -1210,7 +1218,7 @@
             let teamStatsHTML = `
                 <span style="font-weight:bold; font-size:13px; color:#555; display:inline-block; margin-top:15px; margin-bottom:5px;">📊 실시간 팀 통계</span>
                 <div style="overflow-x:auto; background:#fff; border-radius:8px; border:1px solid #eee;">
-                <table class="live-stats-table">
+                <table class="live-stats-table" style="min-width:600px;">
                 <thead>
                     <tr><th>팀명</th><th>공격다운</th><th>수비다운</th><th>전진성공</th><th>수비성공</th><th>러닝시도</th><th>패스시도</th><th>득점</th><th>실점</th><th>TD</th><th>xP</th></tr>
                 </thead>
@@ -1416,7 +1424,7 @@
                 if(arr.length === 0) return '';
                 let h = `<h4 style="margin-top:15px; margin-bottom:5px; color:${getTeamColor(tName)}; text-align:left;">■ ${tName} 선수 기록</h4>
                          <div style="overflow-x:auto; margin-bottom:15px;">
-                         <table class="report-table" style="min-width:750px; font-size:12px; white-space:nowrap; text-align:center;">
+                         <table class="report-table" style="min-width:800px; font-size:12px; white-space:nowrap; text-align:center;">
                          <tr style="background:#efebe9;"><th>이름</th><th>러닝성공</th><th>캐치성공</th><th>캐치실패</th><th>패스성공</th><th>패스실패</th><th>터치다운</th><th>추가점수</th><th>플래그</th><th>커트</th><th>인터셉트</th><th>블리츠</th></tr>`;
                 arr.forEach(p => {
                     h += `<tr><td style="font-weight:bold;">${p.name}</td><td>${p.AR}</td><td>${p.AC}</td><td>${p.ACF}</td><td>${p.P}</td><td>${p.PF}</td><td style="color:var(--primary);font-weight:bold;">${p.TD}</td><td style="color:var(--primary);font-weight:bold;">${p.xP}</td><td>${p.F}</td><td>${p.C}</td><td style="color:var(--blue-team);font-weight:bold;">${p.I}</td><td>${p.Bz}</td></tr>`;
@@ -1439,20 +1447,21 @@
 
             paper.innerHTML = `
                 <div class="report-title-sec">
-                    <h1 style="margin:0; color:var(--primary); font-size:28px; font-weight:900;">PFL MATCH DAY REVIEW</h1>
+                    <h1 style="margin:0; color:var(--primary); font-size:24px; font-weight:900;">PFL MATCH DAY REVIEW</h1>
                     <div style="color:#666; font-weight:bold; margin-top:5px; font-size:14px;">${sch.date} | ${md}</div>
                 </div>
                 
                 <div class="report-score-sec">
                     <div style="flex:1; text-align:right; color:${getTeamColor(sch.team1)};">${sch.team1}</div>
-                    <div style="background:var(--text-dark); color:white; padding:10px 25px; border-radius:12px; font-size:32px;">${st1.pts} : ${st2.pts}</div>
+                    <div class="score-box-review">${st1.pts} : ${st2.pts}</div>
                     <div style="flex:1; text-align:left; color:${getTeamColor(sch.team2)};">${sch.team2}</div>
                 </div>
 
-                <table class="vs-table">
+                <div style="overflow-x:auto;">
+                <table class="vs-table" style="min-width:300px;">
                     <tr><td style="color:${getTeamColor(sch.team1)};">${st1.offDown}</td><td>공격 다운</td><td style="color:${getTeamColor(sch.team2)};">${st2.offDown}</td></tr>
                     <tr><td style="color:${getTeamColor(sch.team1)};">${defDown1}</td><td>수비 다운</td><td style="color:${getTeamColor(sch.team2)};">${defDown2}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.advance}</td><td>전진 성공(러닝+패스)</td><td style="color:${getTeamColor(sch.team2)};">${st2.advance}</td></tr>
+                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.advance}</td><td>전진 성공</td><td style="color:${getTeamColor(sch.team2)};">${st2.advance}</td></tr>
                     <tr><td style="color:${getTeamColor(sch.team1)};">${advR1}</td><td>전진 성공률</td><td style="color:${getTeamColor(sch.team2)};">${advR2}</td></tr>
                     <tr><td style="color:${getTeamColor(sch.team1)};">${st1.run}</td><td>러닝 성공</td><td style="color:${getTeamColor(sch.team2)};">${st2.run}</td></tr>
                     <tr><td style="color:${getTeamColor(sch.team1)};">${pAtt1}</td><td>패스 시도</td><td style="color:${getTeamColor(sch.team2)};">${pAtt2}</td></tr>
@@ -1463,6 +1472,7 @@
                     <tr><td style="color:${getTeamColor(sch.team1)};">${st1.td}</td><td>터치다운</td><td style="color:${getTeamColor(sch.team2)};">${st2.td}</td></tr>
                     <tr><td style="color:${getTeamColor(sch.team1)};">${st1.xp}</td><td>추가 점수</td><td style="color:${getTeamColor(sch.team2)};">${st2.xp}</td></tr>
                 </table>
+                </div>
 
                 <div style="margin-bottom:25px; border-top:2px solid #eee; padding-top:15px;">
                     <h3 style="margin-top:0; font-size:16px;">👥 참가 선수 명단</h3>
