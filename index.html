@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FlagFootball Manager by PFL v2.05 (Cloud)</title>
+    <title>FlagFootball Manager by PFL v2.06 (Cloud)</title>
     <!-- 차트, Firebase, 엑셀 백업(SheetJS) 라이브러리 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -34,7 +34,7 @@
         .card { background: white; border-radius: 10px; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); margin-bottom: 15px; }
         .card-header { font-size: 16px; font-weight: 800; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
 
-        .btn-primary { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px;}
+        .btn-primary { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s;}
         .btn-green { background: var(--green-btn); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-bottom: 8px; transition: 0.2s; }
         .btn-green:disabled { background: #e0e0e0 !important; color: #888 !important; cursor: not-allowed; }
         .btn-add { width: 100%; padding: 8px; background: transparent; border: 2px dashed #ddd; border-radius: 6px; color: #888; cursor: pointer; margin-top: 10px; font-weight: bold; }
@@ -52,7 +52,7 @@
         .game-row-2 { display: flex; gap: 10px; justify-content: center; align-items: center; background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
         .game-row-3 { display: flex; gap: 15px; justify-content: center; align-items: center; margin-top: 5px; }
 
-        .state-btn { padding: 8px 15px; border: none; background: white; border-radius: 6px; font-weight: bold; font-size:13px; cursor: pointer; color: #555; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: 0.1s;}
+        .state-btn { padding: 8px 15px; border: none; background: white; border-radius: 6px; font-weight: bold; font-size:13px; cursor: pointer; color: #555; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: 0.2s;}
         .state-btn.active { background: var(--text-dark); color: white; }
         .xp-btn { color: #d35400; background: #ffeaa7; }
         .xp-btn.active { background: #d35400; color: white; }
@@ -65,7 +65,7 @@
         .game-action-group { display: flex; gap: 3px; padding: 0 6px; flex-wrap:wrap; border-right: 1px dashed #ddd;}
         .game-action-group:last-child { border-right: none; }
         
-        .action-btn { width: 34px; height: 34px; border: 1px solid #ddd; background: white; border-radius: 6px; font-weight: 900; font-size: 11px; cursor: pointer; transition: 0.1s; display:flex; justify-content:center; align-items:center; padding:0;}
+        .action-btn { width: 34px; height: 34px; border: 1px solid #ddd; background: white; border-radius: 6px; font-weight: 900; font-size: 11px; cursor: pointer; transition: 0.2s; display:flex; justify-content:center; align-items:center; padding:0;}
         .act-TD, .act-xP, .act-ACF { font-size: 10px; }
         .act-AR { background: #e8f5e9; border-color: #2ecc71; color: #27ae60; }
         .act-P { background: #fff9c4; border-color: #f1c40f; color: #f39c12; }
@@ -80,7 +80,7 @@
         .act-Bz { background: #fcf3cf; border-color: #f1c40f; color: #d35400; }
         .action-btn:active { filter: brightness(0.85); transform: scale(0.92); }
         
-        .log-box { background: #1e293b; color: #d7ccc8; padding: 12px; border-radius: 8px; font-family: monospace; overflow-y: auto; height: 350px; font-size: 12px;}
+        .log-box { background: #1e293b; color: #d7ccc8; padding: 12px; border-radius: 8px; font-family: monospace; overflow-y: auto; height: 400px; font-size: 12px;}
         .log-entry { margin-bottom: 5px; border-bottom: 1px solid #3e2723; padding-bottom: 4px; display:flex; align-items:center; gap:6px;}
         .sch-input-bar { display: flex; gap: 10px; margin-bottom: 15px; background: #f9f9f9; padding: 12px; border-radius: 8px; align-items: center; flex-wrap:wrap;}
         .sch-input-bar input, .sch-input-bar select { padding: 8px; border: 1px solid #ddd; border-radius: 6px; outline: none; font-size:13px; }
@@ -133,7 +133,7 @@
     <nav class="navbar">
         <div class="logo-container" onclick="switchTab('home')">
             <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/a0522d/ffffff?text=PFL'">
-            <div><div class="logo-text">FlagFootball Manager <span class="version-badge">v2.05 ☁️</span></div></div>
+            <div><div class="logo-text">FlagFootball Manager <span class="version-badge">v2.06 ☁️</span></div></div>
         </div>
         <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         <div class="nav-menu">
@@ -221,8 +221,10 @@
                         <select id="game-md-select" class="form-select" style="width:160px; font-weight:bold; font-size:13px;" onchange="autoSelectTeams()"><option value="">일정 탭에서 등록</option></select>
                         <input type="date" id="game-date" style="width:120px; font-weight:bold; border:1px solid #ddd; padding:6px; border-radius:6px; font-size:13px;">
                         <button class="btn-primary" style="padding:6px 12px; font-size:13px;" onclick="loadMatchPlayers()">기록 패널 열기</button>
-                        <button class="btn-primary" style="padding:6px 12px; font-size:13px; background:#f39c12; margin-left:auto;" onclick="openBestPlayerModal()">🏆 BEST</button>
-                        <button class="btn-primary" style="padding:6px 12px; font-size:13px; background:var(--text-dark);" onclick="endGame()">🏁 종료</button>
+                        
+                        <!-- v2.06 MVP 및 종료 버튼 ID 부여 -->
+                        <button id="btn-mvp" class="btn-primary mvp-btn" style="padding:6px 12px; font-size:13px; background:#f39c12; margin-left:auto;" onclick="openBestPlayerModal()">🏆 BEST</button>
+                        <button id="end-game-btn" class="btn-primary" style="padding:6px 12px; font-size:13px; background:var(--text-dark);" onclick="endGame()">🏁 종료</button>
                     </div>
 
                     <div id="game-play-controls" style="display:none;">
@@ -230,7 +232,8 @@
                             <span style="color:#e74c3c; font-weight:900; font-size:14px;">⚔️ 공격</span>
                             <select id="game-team-offense" class="form-select" style="font-weight:900; pointer-events:none; background:transparent; border:none; width:90px; text-align:center; font-size:15px; color:#e74c3c;"></select>
                             
-                            <button class="btn-primary" style="padding:6px 12px; background:var(--text-dark); border-radius:20px; font-size:12px; display:flex; align-items:center; gap:5px;" onclick="switchOffDef()">
+                            <!-- v2.06: 공수전환 버튼 -->
+                            <button id="btn-switch-offdef" class="btn-primary switch-btn" style="padding:6px 12px; background:var(--text-dark); border-radius:20px; font-size:12px; display:flex; align-items:center; gap:5px;" onclick="switchOffDef()">
                                 <span id="live-score-off" style="color:#ff7675; font-size:16px;">0</span> 🔄 <span id="live-score-def" style="color:#74b9ff; font-size:16px;">0</span>
                             </button>
                             
@@ -264,14 +267,18 @@
                         <div style="flex:1; min-width:250px; display:flex; flex-direction:column;">
                             <div style="display:flex; justify-content:space-between; margin-bottom:5px; align-items:center;">
                                 <span style="font-weight:bold; font-size:13px; color:#555;">📝 실시간 경기 로그</span>
-                                <button class="btn-primary" style="background:#e74c3c; padding:4px 8px; font-size:11px;" onclick="undoLastPlay()">↶ 기록 취소</button>
+                                <!-- v2.06: 기록 취소 버튼 ID 부여 -->
+                                <button id="btn-undo" class="btn-primary undo-btn" style="background:#e74c3c; padding:4px 8px; font-size:11px;" onclick="undoLastPlay()">↶ 기록 취소</button>
                             </div>
                             <div class="log-box" id="game-log"></div>
                         </div>
                         
                         <div style="flex:2; min-width:350px;">
                             <span style="font-weight:bold; font-size:13px; color:#555; display:inline-block; margin-bottom:5px;">📊 실시간 선수 통계</span>
-                            <div style="overflow-y:auto; background:#fff; border-radius:8px; border:1px solid #eee; height:350px;"><div id="live-stats-table-container"></div></div>
+                            <div style="overflow-y:auto; background:#fff; border-radius:8px; border:1px solid #eee; max-height:230px;"><div id="live-stats-table-container"></div></div>
+                            
+                            <!-- v2.06: 실시간 팀 통계 컨테이너 신설 -->
+                            <div id="live-team-stats-container"></div>
                         </div>
                     </div>
                 </div>
@@ -349,7 +356,6 @@
                 <button class="sub-tab-btn" onclick="switchReportSubTab('team')" id="tab-btn-rep-team">🛡️ 팀 리포트</button>
             </div>
 
-            <!-- 개인 리포트 영역 -->
             <div id="report-ind-container" class="card" style="display:block;">
                 <div class="card-header">스카우팅 리포트 (시각화 분석)</div>
                 <div class="sch-input-bar">
@@ -357,14 +363,12 @@
                     <button class="btn-primary" onclick="drawPlayerReport()">분석하기</button>
                 </div>
                 <div class="report-grid" id="report-result-area" style="display:none;">
-                    <!-- 방사형 차트 -->
                     <div class="review-block" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
                         <h3 id="report-p-name" style="color:var(--primary); margin-top:0; font-size:22px;"></h3>
                         <div id="report-p-team" style="color:white; padding:4px 12px; border-radius:12px; font-weight:bold; margin-top:-8px; font-size:13px;"></div>
                         <canvas id="playerRadarChart" width="240" height="240"></canvas>
                         <div style="width:100%; margin-top:15px; background:#fff; padding:12px; border-left:4px solid var(--primary); border-radius:4px; font-weight:bold; font-size:12px;" id="report-p-comment"></div>
                     </div>
-                    <!-- 통계 테이블 -->
                     <div class="review-block" style="background:white; padding:0; border:none; overflow-x:auto;">
                         <table class="report-table">
                             <tr><th>BEST</th><td id="rep-best">0회</td><th>터치다운</th><td id="rep-td">0회</td></tr>
@@ -376,7 +380,6 @@
                             <tr><th>블리츠</th><td id="rep-blitz">0회</td><th>수비성공</th><td id="rep-def" style="font-weight:bold; color:var(--red-team);">0회</td></tr>
                         </table>
                     </div>
-                    <!-- v2.05 신설: 꺾은선 차트 (성장 곡선) -->
                     <div style="grid-column: 1 / -1; background: white; padding: 15px; border-radius: 10px; margin-top: 5px; border: 1px solid #eee;">
                         <h4 style="margin-top:0; color:var(--text-dark); font-size:15px;">📈 경기별 활약 추이 (성장 곡선)</h4>
                         <div style="width:100%; height:250px;">
@@ -386,7 +389,6 @@
                 </div>
             </div>
 
-            <!-- 팀 리포트 영역 -->
             <div id="report-team-container" class="card" style="display:none;">
                 <div class="card-header">The Team Report</div>
                 <div class="sch-input-bar">
@@ -413,14 +415,12 @@
             <div class="card" style="max-width: 500px;">
                 <h2>설정 (관리자 전용)</h2>
                 
-                <!-- 엑셀 백업 -->
                 <div style="background:#e8f5e9; padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid #c8e6c9;">
                     <h3 style="margin-top:0; color:#2e7d32; font-size:15px;">📥 시스템 전체 데이터 백업</h3>
                     <p style="font-size:13px; color:#555; margin-top:0; line-height:1.5;">모든 선수 명단, 일정, 실시간 경기 로그, 리뷰 데이터를 엑셀(Excel) 파일로 묶어서 다운로드합니다.</p>
                     <button class="btn-green" style="background:#27ae60; margin:0; padding:12px; font-size:14px;" onclick="downloadExcelBackup()">엑셀 파일로 백업하기 (.xlsx)</button>
                 </div>
 
-                <!-- 시즌 생성 -->
                 <div style="background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:15px;">
                     <h3 style="margin-top:0; color:var(--primary); font-size:15px;">새로운 시즌 추가</h3>
                     <div style="display:flex; gap:8px;">
@@ -430,7 +430,6 @@
                     <div id="season-list-display" style="margin-top:10px; color:#555; font-weight:bold; font-size:12px;"></div>
                 </div>
                 
-                <!-- v2.05 신설: 시즌 영구 삭제 -->
                 <div style="background:#ffebee; padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid #ffcdd2;">
                     <h3 style="margin-top:0; color:#c62828; font-size:15px;">🗑️ 선택된 시즌 영구 삭제</h3>
                     <p style="font-size:13px; color:#555; margin-top:0; line-height:1.5;">현재 상단에서 선택된 <b><span id="del-target-season" style="color:#c62828;"></span> 시즌</b>의 모든 명단, 일정, 로그, 리뷰를 완전히 지웁니다.<br>※ 이 작업은 되돌릴 수 없습니다!</p>
@@ -476,7 +475,7 @@
 
     <script>
         // ============================================================================
-        // 🔥 Firebase 설정 (선생님의 API 키 유지)
+        // 🔥 Firebase 설정
         // ============================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyD3ji6vMLw_TK0QEm2R_RF2nd-XMQIEEeQ",
@@ -491,7 +490,6 @@
         let db = null;
         let isCloudActive = false;
         
-        // v2.05: 차트 전역 변수 선언 (이 부분이 없어서 방사형 차트가 사라지는 버그가 있었습니다)
         let radarChartInstance = null;
         let lineChartInstance = null;
 
@@ -507,7 +505,7 @@
         }
         // ============================================================================
 
-        let FFM_DB = { roster: [], schedule: [], logs: [], reviews: {}, lockedSeasons: {}, teamColors: {}, seasons: ['2026', '2025', '2024'] };
+        let FFM_DB = { roster: [], schedule: [], logs: [], reviews: {}, lockedSeasons: {}, lockedMatches: {}, teamColors: {}, seasons: ['2026', '2025', '2024'] };
         let currentSeason = '2026';
         let isSettingsUnlocked = false; 
         let currentHalf = '전반전'; let currentDown = '1st';
@@ -548,11 +546,16 @@
             if(wrapper) { wrapper.style.gridTemplateColumns = window.innerWidth > 800 ? '1fr 1fr' : '1fr'; }
         }
 
+        // v2.06: lockedMatches(경기 잠금 데이터) 구조 추가 반영
         function validateDB(parsed) {
             if(!parsed.seasons) parsed.seasons = ['2026', '2025', '2024'];
-            if(!parsed.reviews) parsed.reviews = {}; if(!parsed.lockedSeasons) parsed.lockedSeasons = {}; 
-            if(!parsed.teamColors) parsed.teamColors = {}; if(!parsed.roster) parsed.roster = [];
-            if(!parsed.schedule) parsed.schedule = []; if(!parsed.logs) parsed.logs = [];
+            if(!parsed.reviews) parsed.reviews = {}; 
+            if(!parsed.lockedSeasons) parsed.lockedSeasons = {}; 
+            if(!parsed.lockedMatches) parsed.lockedMatches = {}; 
+            if(!parsed.teamColors) parsed.teamColors = {}; 
+            if(!parsed.roster) parsed.roster = [];
+            if(!parsed.schedule) parsed.schedule = []; 
+            if(!parsed.logs) parsed.logs = [];
         }
 
         function saveToDB() { 
@@ -582,32 +585,21 @@
             saveToDB(); renderSeasonSelect(); document.getElementById('new-season-input').value = ''; alert(`[${newS} 시즌]이 추가되었습니다.`);
         }
         
-        // v2.05: 시즌 영구 삭제 기능
         function deleteSeason() {
             if(!currentSeason) return;
             if(confirm(`⚠️ 정말로 [${currentSeason} 시즌]의 모든 데이터를 영구 삭제하시겠습니까?\n이 작업은 복구가 불가능하며, 해당 시즌의 선수 명단, 경기 일정, 기록, 리뷰가 모두 삭제됩니다.`)) {
-                
-                // 1. 시즌 목록에서 삭제
                 FFM_DB.seasons = FFM_DB.seasons.filter(s => s !== currentSeason);
-                
-                // 2. 해당 시즌 데이터 소각
                 FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason);
                 FFM_DB.schedule = FFM_DB.schedule.filter(s => s.season !== currentSeason);
                 FFM_DB.logs = FFM_DB.logs.filter(l => l.season !== currentSeason);
                 
                 for(let key in FFM_DB.reviews) { if(key.startsWith(currentSeason + '_')) delete FFM_DB.reviews[key]; }
+                for(let key in FFM_DB.lockedMatches) { if(key.startsWith(currentSeason + '_')) delete FFM_DB.lockedMatches[key]; }
                 delete FFM_DB.lockedSeasons[currentSeason];
                 for(let key in FFM_DB.teamColors) { if(key.startsWith(currentSeason + '_')) delete FFM_DB.teamColors[key]; }
                 
-                // 3. 남은 시즌이 없으면 현재 연도로 생성
-                if(FFM_DB.seasons.length === 0) { 
-                    FFM_DB.seasons.push(new Date().getFullYear().toString()); 
-                }
-                
-                // 4. 저장 후 새로고침
-                saveToDB();
-                alert('해당 시즌 데이터가 완벽하게 삭제되었습니다.');
-                location.reload();
+                if(FFM_DB.seasons.length === 0) { FFM_DB.seasons.push(new Date().getFullYear().toString()); }
+                saveToDB(); alert('해당 시즌 데이터가 완벽하게 삭제되었습니다.'); location.reload();
             }
         }
 
@@ -622,7 +614,7 @@
 
         function switchTab(tabId) {
             if(tabId === 'settings' && !isSettingsUnlocked) {
-                let pwd = prompt("관리자 비밀번호를 입력하세요.");
+                let pwd = prompt("관리자 비밀번호(2154)를 입력하세요.");
                 if(pwd === "2154") { isSettingsUnlocked = true; alert("인증 성공."); } else { return; }
             }
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -644,7 +636,7 @@
         
         function switchReviewSubTab(type) {
             if(type === 'write') {
-                let pwd = prompt("리뷰 작성은 관리자 전용입니다. 비밀번호를 입력하세요.");
+                let pwd = prompt("리뷰 작성은 관리자 전용입니다. 비밀번호(2154)를 입력하세요.");
                 if(pwd !== "2154") return alert("비밀번호 불일치.");
             }
             document.querySelectorAll('#review .sub-tab-btn').forEach(b => b.classList.remove('active'));
@@ -677,7 +669,6 @@
             document.getElementById('roster-input-body').appendChild(tr);
         }
         
-        // v2.05: 팀 색상 지정 시 시즌 정보를 조합하여 다른 시즌에 영향을 주지 않도록 완벽 분리
         function setTeamColor(team, color) {
             if(!FFM_DB.teamColors) FFM_DB.teamColors = {}; 
             FFM_DB.teamColors[currentSeason + '_' + team] = color;
@@ -897,7 +888,7 @@
             sHtml += `</table>`;
             if(document.getElementById('rank-team-points-box')) document.getElementById('rank-team-points-box').innerHTML = sHtml;
 
-            let dHtml = `<table class="adv-table"><tr><th>팀</th><th>경기수</th><th>공격 다운</th><th>수비 다운</th><th>전진 성공</th><th>전진성공률</th><th>수비성공</th><th>수비성공률</th><th>러닝성공</th><th>패스성공</th><th>패스성공률</th><th>터치다운</th><th>xP</th><th>xP 성공률</th><th>경기당 득점</th><th>경기당 실점</th><th>경기당 공격다운</th><th>경기당 수비다운</th></tr>`;
+            let dHtml = `<table class="adv-table"><tr><th>팀</th><th>경기수</th><th>공격 다운</th><th>수비 다운</th><th>전진 성공</th><th>전진성공률</th><th>수비성공</th><th>수비성공률</th><th>러닝시도</th><th>패스시도</th><th>패스성공률</th><th>터치다운</th><th>xP</th><th>xP 성공률</th><th>경기당 득점</th><th>경기당 실점</th><th>경기당 공격다운</th><th>경기당 수비다운</th></tr>`;
             sortedTeams.forEach(t => {
                 let g = t.games || 1;
                 let advR = t.offD > 0 ? ((t.advance/t.offD)*100).toFixed(1)+'%' : '0%';
@@ -911,7 +902,7 @@
                 dHtml += `<tr><td><b style="color:${getTeamColor(t.team)};">${t.team}</b></td>
                           <td>${t.games}</td><td>${t.offD}</td><td>${t.defD}</td><td>${t.advance}</td>
                           <td style="color:var(--red-team); font-weight:bold;">${advR}</td><td>${t.defSucc}</td><td style="color:var(--red-team); font-weight:bold;">${defR}</td>
-                          <td>${t.run}</td><td>${t.pass}</td><td style="color:var(--red-team); font-weight:bold;">${passR}</td>
+                          <td>${t.run}</td><td>${t.pass + t.pf}</td><td style="color:var(--red-team); font-weight:bold;">${passR}</td>
                           <td>${t.td}</td><td>${t.xp}</td><td style="color:var(--red-team); font-weight:bold;">${xpR}</td>
                           <td>${ptsPerG}</td><td>${gaPerG}</td><td>${offDPerG}</td><td>${defDPerG}</td></tr>`;
             });
@@ -1022,6 +1013,7 @@
         function setHalf(half) { currentHalf = half; document.querySelectorAll('.half-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); }
         function setDown(down) { currentDown = down; document.querySelectorAll('.down-btn').forEach(b => b.classList.remove('active')); event.currentTarget.classList.add('active'); }
         
+        // v2.06: 매치 기록 패널 불러올 때 잠금 상태 반영
         function loadMatchPlayers() {
             if(!isLocked()) return alert("먼저 [팀] 탭에서 명단을 확정(잠금) 처리하세요.");
             const md = document.getElementById('game-md-select').value;
@@ -1044,15 +1036,17 @@
             
             adjustGameBlocksLayout(); 
             renderLogs(); updateLiveScoreAndStats();
+            applyMatchLockState();
         }
 
+        // v2.06: No stats 버튼에 클래스 부여 (.no-stat-btn)
         function createTeamBlock(teamName, players, role) {
             const div = document.createElement('div'); div.className = 'game-team-block';
             let bg = role === 'offense' ? '#fff5f5' : '#f0f8ff'; let borderCol = role === 'offense' ? '#ff7675' : '#74b9ff';
             div.style.background = bg; div.style.borderColor = borderCol;
             
             let icon = role === 'offense' ? '⚔️ 공격팀' : '🛡️ 수비팀';
-            let noStatBtn = role === 'offense' ? `<button class="btn-primary" style="background:#7f8c8d; padding:4px 8px; font-size:11px; margin-left:10px;" onclick="recordNoStat()">💨 No stats</button>` : '';
+            let noStatBtn = role === 'offense' ? `<button class="btn-primary no-stat-btn" style="background:#7f8c8d; padding:4px 8px; font-size:11px; margin-left:10px;" onclick="recordNoStat()">💨 No stats</button>` : '';
             
             let html = `<div class="game-team-header" style="color:${getTeamColor(teamName)}; border-color:${borderCol};">
                             <div>${icon} : ${teamName} ${noStatBtn}</div>
@@ -1134,6 +1128,7 @@
             });
         }
         
+        // v2.06: 선수 통계 + 팀 통계 동시 출력
         function updateLiveScoreAndStats() {
             const md = document.getElementById('game-md-select').value; if(!md) return;
             const t1 = document.getElementById('game-team-offense').value; const t2 = document.getElementById('game-team-defense').value;
@@ -1185,6 +1180,41 @@
             });
             tableHTML += `</tbody></table>`;
             document.getElementById('live-stats-table-container').innerHTML = tableHTML;
+
+            // v2.06 실시간 팀 통계 반영
+            let st = getTeamMatchStats(md);
+            let s1 = st[t1] || {pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0};
+            let s2 = st[t2] || {pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0};
+
+            let teamStatsHTML = `
+                <span style="font-weight:bold; font-size:13px; color:#555; display:inline-block; margin-top:15px; margin-bottom:5px;">📊 실시간 팀 통계</span>
+                <div style="overflow-x:auto; background:#fff; border-radius:8px; border:1px solid #eee;">
+                <table class="live-stats-table">
+                <thead>
+                    <tr><th>팀명</th><th>공격다운</th><th>수비다운</th><th>전진성공</th><th>수비성공</th><th>러닝시도</th><th>패스시도</th><th>득점</th><th>실점</th><th>TD</th><th>xP</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight:bold; color:${getTeamColor(t1)};">${t1}</td>
+                        <td>${s1.offDown}</td><td>${s2.offDown}</td>
+                        <td>${s1.advance}</td><td>${s1.defSucc}</td>
+                        <td>${s1.run}</td><td>${s1.pass + s1.pf}</td>
+                        <td style="font-weight:bold; color:var(--primary);">${s1.pts}</td><td>${s2.pts}</td>
+                        <td>${s1.td}</td><td>${s1.xp}</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight:bold; color:${getTeamColor(t2)};">${t2}</td>
+                        <td>${s2.offDown}</td><td>${s1.offDown}</td>
+                        <td>${s2.advance}</td><td>${s2.defSucc}</td>
+                        <td>${s2.run}</td><td>${s2.pass + s2.pf}</td>
+                        <td style="font-weight:bold; color:var(--primary);">${s2.pts}</td><td>${s1.pts}</td>
+                        <td>${s2.td}</td><td>${s2.xp}</td>
+                    </tr>
+                </tbody>
+                </table>
+                </div>
+            `;
+            document.getElementById('live-team-stats-container').innerHTML = teamStatsHTML;
         }
 
         function openBestPlayerModal() {
@@ -1215,7 +1245,55 @@
             saveToDB(); document.getElementById('mvp-modal').style.display = 'none'; alert(`BEST PLAYER가 등록되었습니다!`); renderLogs(); updateLiveScoreAndStats();
         }
         
-        function endGame() { const md = document.getElementById('game-md-select').value; if(!md) return alert(`[${md}] 경기가 종료되었습니다. 순위 탭에 결과가 반영되었습니다.`); }
+        // v2.06: 경기 종료 및 마감 처리
+        function endGame() { 
+            const md = document.getElementById('game-md-select').value; 
+            if(!md) return alert("매치를 선택하세요."); 
+
+            let matchKey = currentSeason + '_' + md;
+            if (FFM_DB.lockedMatches[matchKey]) {
+                let pwd = prompt("경기 기록 잠금을 해제하시려면 비밀번호(2154)를 입력하세요.");
+                if (pwd === "2154") {
+                    FFM_DB.lockedMatches[matchKey] = false; saveToDB();
+                    alert(`[${md}] 경기 기록이 다시 활성화되었습니다.`);
+                } else if (pwd !== null) {
+                    alert("비밀번호가 틀렸습니다.");
+                }
+            } else {
+                if (confirm(`[${md}] 경기를 정말 종료하시겠습니까?\n종료하면 더 이상 기록을 추가하거나 수정할 수 없습니다.`)) {
+                    FFM_DB.lockedMatches[matchKey] = true; saveToDB();
+                    alert(`[${md}] 경기가 안전하게 마감 및 잠금 처리되었습니다.`);
+                }
+            }
+            applyMatchLockState();
+        }
+
+        // v2.06: 경기 마감 상태에 따른 버튼 활성화/비활성화 처리
+        function applyMatchLockState() {
+            const md = document.getElementById('game-md-select').value;
+            if(!md) return;
+            let matchKey = currentSeason + '_' + md;
+            let isMatchLocked = FFM_DB.lockedMatches[matchKey] || false;
+
+            const actionBtns = document.querySelectorAll('.action-btn, .sub-btn, .half-btn, .down-btn, .xp-btn, .no-stat-btn, .switch-btn, .undo-btn, .mvp-btn');
+            
+            actionBtns.forEach(btn => {
+                btn.disabled = isMatchLocked;
+                btn.style.opacity = isMatchLocked ? '0.4' : '1';
+                btn.style.cursor = isMatchLocked ? 'not-allowed' : 'pointer';
+            });
+            
+            const endBtn = document.getElementById('end-game-btn');
+            if(endBtn) {
+                if(isMatchLocked) {
+                    endBtn.innerHTML = '🔓 종료 해제';
+                    endBtn.style.background = '#7f8c8d';
+                } else {
+                    endBtn.innerHTML = '🏁 종료';
+                    endBtn.style.background = 'var(--text-dark)';
+                }
+            }
+        }
 
         // --- 리뷰 탭 ---
         function populateReviewSelect() {
@@ -1315,7 +1393,6 @@
             const pArr1 = pArr.filter(p => p.team === sch.team1);
             const pArr2 = pArr.filter(p => p.team === sch.team2);
             
-            // v2.05: 표 정렬 보완 (white-space nowrap, text-align center)
             const genIndTable = (arr, tName) => {
                 if(arr.length === 0) return '';
                 let h = `<h4 style="margin-top:15px; margin-bottom:5px; color:${getTeamColor(tName)}; text-align:left;">■ ${tName} 선수 기록</h4>
@@ -1389,7 +1466,6 @@
 
                 <div style="margin-bottom:25px; border-top:2px solid #eee; padding-top:15px;">
                     <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트 (팀별 피드백)</h3>
-                    <!-- v2.05: 팀 코멘트 가로 정렬(VS 구조) 적용 -->
                     <div style="display:flex; gap:20px; background:#f4f6f6; padding:15px; border-radius:8px;">
                         <div style="flex:1;">
                             <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; text-align:center;">[ ${sch.team1} ]</h4>
@@ -1452,7 +1528,6 @@
             let r_stat=run*5, c_stat=c*5, mvp_stat=best*20, d_stat=(f+cut+int)*3, p_stat=p*5;
             const norm = (v) => Math.min(100, Math.max(10, v));
 
-            // 방사형 차트 그리기
             const ctx = document.getElementById('playerRadarChart').getContext('2d');
             if(radarChartInstance) radarChartInstance.destroy();
             radarChartInstance = new Chart(ctx, {
@@ -1469,13 +1544,12 @@
 
             let maxStat = Math.max(r_stat, c_stat, p_stat, d_stat); let cmt = "팀의 보배 같은 선수입니다.";
             if(maxStat === 0) cmt = "아직 출전 기록이 부족합니다. 다음 경기를 기대해 봅니다!";
-            else if(maxStat === r_stat) cmt = "⚡ 폭발적인 스피드로 상대 진영을 휘젓는 러닝 머신입니다.";
-            else if(maxStat === c_stat) cmt = "👐 어떤 패스든 안정적으로 받아내는 최고의 리시버입니다.";
-            else if(maxStat === p_stat) cmt = "🎯 경기의 흐름을 읽고 정확하게 공을 찔러넣는 쿼터백입니다.";
+            else if(maxStat === r_stat) cmt = "⚡ 폭발적인 스피드로 상대 진영을 휘젓는 달리기 능력이 돋보입니다.";
+            else if(maxStat === c_stat) cmt = "👐 어떤 패스든 안정적으로 받아내는 최고의 패스 캐쳐입니다.";
+            else if(maxStat === p_stat) cmt = "🎯 경기의 흐름을 읽고 정확하게 공을 던져주는 쿼터백입니다.";
             else if(maxStat === d_stat) cmt = "🛡️ 상대의 공격을 꽁꽁 묶는 통곡의 벽, 수비의 핵심입니다.";
             document.getElementById('report-p-comment').innerText = cmt;
 
-            // v2.05: 꺾은선 차트 (성장 곡선) 데이터 가공 및 그리기
             let matchDays = [...new Set(pLog.map(l => l.matchDay))];
             matchDays.sort((a,b) => {
                 let sa = getSchedule().find(s=>s.md===a);
@@ -1551,7 +1625,6 @@
             const offRatio = tStats.offD > 0 ? ((tStats.advance/tStats.offD)*100).toFixed(1) : 0;
             const defRatio = tStats.defD > 0 ? ((tStats.defSucc/tStats.defD)*100).toFixed(1) : 0;
             
-            // v2.05: 팀 AI 로직 완벽 개편 (실제 패스 전술 비율 반영)
             let totalPassAtt = tStats.pass + tStats.pf;
             let totalPlays = tStats.run + totalPassAtt;
             let passPlayRatio = totalPlays > 0 ? ((totalPassAtt / totalPlays) * 100).toFixed(1) : 0;
@@ -1581,29 +1654,30 @@
                 genTopHtml('👐 캐치 성공', tCatch, p=>p.catch+'회') + genTopHtml('🛡️ 수비 성공', tDef, p=>p.def+'회') +
                 genTopHtml('🔥 총 득점', tPts, p=>(p.td*6+p.xp)+'점');
 
+            // v2.06 초등학생 맞춤형 쉬운 단어로 AI 코멘트 순화
             let aiCmt = "";
             if (totalPlays === 0) {
                 aiCmt += `<li>아직 공격 기록이 충분하지 않아 전술 성향을 분석하기 어렵습니다.</li>`;
             } else if(parseFloat(passPlayRatio) >= 65) {
-                aiCmt += `<li>공격의 <b>${passPlayRatio}%를 패스에 의존하는 '에어 레이드(Air Raid)' 성향</b>을 보입니다. 대인 방어에 막힐 경우를 대비해 러닝(런 플레이) 전술을 섞어 상대 수비를 흔들 필요가 있습니다.</li>`;
+                aiCmt += `<li>공격의 <b>${passPlayRatio}%를 패스로 공격하는 '패스 중심'의 성향</b>을 보입니다. 수비수가 패스를 꽁꽁 묶을 때를 대비해 러닝(달리기) 공격을 섞어 쓰면 더 좋을 것 같습니다.</li>`;
             } else if(parseFloat(passPlayRatio) <= 35) {
-                aiCmt += `<li>공격의 <b>${100 - passPlayRatio}%가 러닝에 집중된 '그라운드 앤 파운드(Ground & Pound)' 성향</b>입니다. 짧고 빠른 패스 전술을 추가하면 공격 루트가 훨씬 다채로워질 것입니다.</li>`;
+                aiCmt += `<li>공격의 <b>${100 - passPlayRatio}%가 달리기에 집중된 '러닝 중심'의 성향</b>입니다. 짧고 빠른 패스 작전을 조금 더 추가하면 공격이 훨씬 다양해질 것입니다.</li>`;
             } else {
-                aiCmt += `<li>러닝과 패스 비율이 이상적으로 분배된 <b>하이브리드 공격 전술</b>을 구사하고 있습니다. 예측 불가능한 공격으로 상대 수비를 괴롭히는 매우 좋은 전술적 패턴입니다.</li>`;
+                aiCmt += `<li>러닝과 패스를 골고루 섞어 쓰는 <b>균형 잡힌 공격(하이브리드) 전술</b>을 잘 사용하고 있습니다. 상대 수비가 예측하기 힘든 아주 좋은 공격 방법입니다.</li>`;
             }
             
             let totalDef = tStats.defSucc; 
             if(totalDef > 0) {
                 let turnoverRatio = ((tStats.c + tStats.i) / totalDef * 100).toFixed(1);
                 if(parseFloat(turnoverRatio) > 40) {
-                    aiCmt += `<li>단순한 플래그 뜯기를 넘어, 패스를 커트하거나 인터셉트하는 <b>'턴오버(Turnover) 창출 능력'이 뛰어난 공격적인 수비진</b>을 보유하고 있습니다.</li>`;
+                    aiCmt += `<li>단순히 플래그를 뽑는 것을 넘어, 공을 공중에서 쳐내거나 가로채는 <b>'공 뺏기(턴오버)' 능력이 아주 뛰어난 수비진</b>을 가지고 있습니다.</li>`;
                 } else {
-                    aiCmt += `<li>수비 시 플래그 풀링에 집중하는 안정적인 형태를 보입니다. 상대의 패스 루트를 읽고 차단(커트/인터셉트)하는 훈련을 더하면 철벽 수비가 될 것입니다.</li>`;
+                    aiCmt += `<li>수비할 때 플래그를 아주 안정적으로 잘 뽑아냅니다. 여기에 상대 패스를 눈치채고 공을 쳐내는 훈련을 더하면 완벽한 철벽 수비가 될 것입니다.</li>`;
                 }
             }
 
             if(tPts.length > 0 && tPts[0].td > 0) {
-                aiCmt += `<li>팀 내 핵심 득점원인 <b>${tPts[0].name}</b> 선수가 상대의 집중 견제를 받을 확률이 높으므로, 득점원을 분산시키는 페이크 전술이 요구됩니다.</li>`;
+                aiCmt += `<li>팀 내에서 득점을 가장 많이 하는 <b>${tPts[0].name}</b> 선수가 상대 수비수들의 집중 공격을 받을 확률이 높습니다. 다른 친구들을 활용하는 속임수 전술도 필요합니다.</li>`;
             }
             
             document.getElementById('team-rep-ai').innerHTML = aiCmt || "<li>충분한 데이터가 모이면 AI 분석이 제공됩니다.</li>";
