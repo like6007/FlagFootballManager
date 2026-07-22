@@ -622,7 +622,7 @@
 
         function switchTab(tabId) {
             if(tabId === 'settings' && !isSettingsUnlocked) {
-                let pwd = prompt("관리자 비밀번호(2154)를 입력하세요.");
+                let pwd = prompt("관리자 비밀번호를 입력하세요.");
                 if(pwd === "2154") { isSettingsUnlocked = true; alert("인증 성공."); } else { return; }
             }
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -644,7 +644,7 @@
         
         function switchReviewSubTab(type) {
             if(type === 'write') {
-                let pwd = prompt("리뷰 작성은 관리자 전용입니다. 비밀번호(2154)를 입력하세요.");
+                let pwd = prompt("리뷰 작성은 관리자 전용입니다. 비밀번호를 입력하세요.");
                 if(pwd !== "2154") return alert("비밀번호 불일치.");
             }
             document.querySelectorAll('#review .sub-tab-btn').forEach(b => b.classList.remove('active'));
