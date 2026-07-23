@@ -53,6 +53,8 @@
         .game-controls-wrapper { display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #eee; }
         .game-row-1 { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
         .game-row-2 { display: flex; gap: 10px; justify-content: center; align-items: center; background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); flex-wrap: wrap;}
+        
+        /* 기록 탭 다운 제어판 왼쪽 정렬 */
         .game-row-3 { display: flex; gap: 10px; justify-content: flex-start; align-items: center; margin-top: 5px; flex-wrap: wrap; padding-left:5px;}
 
         .state-btn { padding: 8px 15px; border: none; background: white; border-radius: 6px; font-weight: bold; font-size:13px; cursor: pointer; color: #555; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: 0.2s;}
@@ -105,11 +107,13 @@
 
         .review-block { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
         
+        /* 리포트 탭: 방사형 & 꺾은선 1:1 배치 */
         .report-grid-top { display: grid; grid-template-columns: 280px 1fr; gap: 15px; margin-bottom: 15px; }
         .report-right-col { display: flex; flex-direction: column; justify-content:center; }
         
         .csv-input { display: none; }
 
+        /* 개인 기록 표 너비 및 디자인 강제 고정 */
         .report-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background: white; border: 2px solid var(--text-dark); table-layout: fixed; min-width: 800px;}
         .report-table th { border: 1px solid #eee; padding: 10px 4px; background: #efebe9; font-weight: 800; color:var(--text-dark); white-space: nowrap;}
         .report-table td { border: 1px solid #eee; padding: 10px 4px; font-weight:600; color:#444; white-space: nowrap;}
@@ -119,6 +123,7 @@
         .live-stats-table td { padding: 6px; border-bottom: 1px solid #eee; }
         .highlight-stat { color: var(--red-team); font-weight: 900; }
         
+        /* 리뷰 탭 기사형 레이아웃 */
         .report-paper { border: none; padding: 20px 0; background: #fff; margin-top: 15px; display: none; }
         .report-title-sec { text-align: center; border-bottom: 4px solid var(--text-dark); padding-bottom: 15px; margin-bottom: 20px; }
         .review-split-layout { display: flex; gap: 20px; flex-wrap: wrap; }
@@ -133,7 +138,8 @@
         .vs-table td:nth-child(2) { font-size: 11px; color: #888; background: #fdfdfd; width: 40%; font-weight:bold; }
         .vs-table td:last-child { text-align: center; font-weight: bold; width: 30%; color: #333; }
         
-        .player-card { border:2px solid var(--text-dark); background:white; overflow:hidden; }
+        /* AI 팀 분석 선수 카드 디자인 */
+        .player-card { border:2px solid var(--text-dark); background:white; overflow:hidden; border-radius:8px;}
         .player-card-header { background:white; border-bottom:2px solid var(--text-dark); display:flex; }
         .player-card-team { flex:1; font-weight:bold; padding:5px; text-align:center; border-right:1px solid var(--text-dark); }
         .player-card-pos { flex:1; text-align:center; padding:5px; font-size:12px; color:#555;}
@@ -145,8 +151,11 @@
         .player-card-row div { flex:1; padding:4px 2px; display:flex; justify-content:center; align-items:center; flex-direction:column;}
         .player-card-row div:first-child { font-weight:bold; border-right:1px solid #ddd; background:#fcfcfc; flex-direction:row;}
 
+        .review-team-split { display: flex; gap: 20px; background: #f4f6f6; padding: 15px; border-radius: 8px; }
+
         @media (max-width: 768px) {
             .navbar { padding: 10px 15px 0 15px; }
+            .header-top { justify-content: flex-start; }
             .logo-text { font-size: 14px; }
             .nav-btn { font-size: 13px; padding: 0 8px; height: 35px; }
             
@@ -160,6 +169,9 @@
             .game-action-group { border-right: none !important; padding: 0 !important; gap: 4px; flex-wrap: wrap;}
             .action-btn { width: 32px; height: 32px; font-size: 10px; }
             
+            .review-team-split { flex-direction: column; gap: 15px; }
+            .review-team-split div[style*="width:2px"] { display: none; }
+            
             #rank-ind-box { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important; }
         }
     </style>
@@ -170,10 +182,11 @@
         <div class="header-top">
             <div class="logo-container" onclick="switchTab('home')">
                 <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/a0522d/ffffff?text=PFL'">
-                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator" style="background:#e8f5e9; color:#2e7d32;">v2.11 ☁️</span></div>
+                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator" style="background:#e8f5e9; color:#2e7d32;">v2.12 ☁️</span></div>
             </div>
             <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         </div>
+        <!-- 탭 순서 변경 반영 -->
         <div class="nav-menu">
             <button class="nav-btn active" onclick="switchTab('home')">홈</button>
             <button class="nav-btn" onclick="switchTab('team')">팀</button>
@@ -240,6 +253,7 @@
                         <button class="btn-green" style="background:#bdc3c7; width:auto; padding:6px 12px; margin:0;" onclick="downloadScheduleTemplate()">양식 다운로드</button>
                         <input type="file" id="csv-schedule" class="csv-input" accept=".csv" onchange="handleScheduleCSV(event)">
                         <button class="btn-green" id="btn-csv-schedule" style="width: auto; padding: 6px 12px; margin:0;" onclick="document.getElementById('csv-schedule').click()">CSV 업로드</button>
+                        <!-- 일정 잠금 버튼 추가 -->
                         <button class="btn-green" id="btn-lock-schedule" style="background:var(--text-dark); width:auto; padding:6px 12px; margin:0;" onclick="toggleScheduleLock()">일정 잠금</button>
                     </div>
                 </div>
@@ -301,6 +315,7 @@
                             <span style="color:#3498db; font-weight:900; font-size:14px;">🛡️ 수비</span>
                         </div>
 
+                        <!-- 다운 패널 왼쪽 정렬 적용 -->
                         <div class="game-row-3">
                             <div style="display:flex; gap:4px;">
                                 <button class="state-btn half-btn active" onclick="setHalf('전반전')">전반전</button>
@@ -390,6 +405,7 @@
                 <button class="sub-tab-btn" onclick="switchReportSubTab('team')" id="tab-btn-rep-team">🛡️ 팀 리포트</button>
             </div>
 
+            <!-- 개인 리포트 -->
             <div id="report-ind-container" class="card" style="display:block;">
                 <div class="card-header">스카우팅 리포트 (시각화 분석)</div>
                 <div class="sch-input-bar">
@@ -434,6 +450,7 @@
                 </div>
             </div>
 
+            <!-- 팀 리포트 -->
             <div id="report-team-container" class="card" style="display:none;">
                 <div class="card-header">The Team Report</div>
                 <div class="sch-input-bar">
@@ -517,6 +534,7 @@
     </div>
 
     <script>
+        // 전역 변수 및 Firebase 세팅 (중복 코드 완벽 제거)
         const firebaseConfig = {
             apiKey: "AIzaSyD3ji6vMLw_TK0QEm2R_RF2nd-XMQIEEeQ",
             authDomain: "pfl-ffm.firebaseapp.com",
@@ -540,7 +558,7 @@
             console.error("Firebase 초기화 에러:", error);
             const indicator = document.getElementById('cloud-indicator');
             if(indicator) {
-                indicator.innerText = 'v2.11 ⚠️오프라인';
+                indicator.innerText = 'v2.12 ⚠️오프라인';
                 indicator.style.background = '#ffebee';
                 indicator.style.color = '#c62828';
             }
@@ -568,9 +586,13 @@
                     if (doc.exists) {
                         let parsed = doc.data(); validateDB(parsed); FFM_DB = parsed;
                         localStorage.setItem('ffm_database_v1', JSON.stringify(FFM_DB));
-                        if (isFirstLoad) { renderSeasonSelect(); changeSeason(); isFirstLoad = false; } 
-                        else {
-                            renderSchedule(); updateRankings();
+                        if (isFirstLoad) { 
+                            renderSeasonSelect(); 
+                            changeSeason(); 
+                            isFirstLoad = false; 
+                        } else {
+                            renderSchedule(); 
+                            updateRankings();
                             if(document.getElementById('game').classList.contains('active')) { renderLogs(); updateLiveScoreAndStats(); applyMatchLockState(); }
                             if(document.getElementById('report').classList.contains('active')) {
                                 if(document.getElementById('report-ind-container').style.display === 'block') drawPlayerReport(); else drawTeamReport();
@@ -609,7 +631,6 @@
         function getSchedule() { return FFM_DB.schedule.filter(s => s.season === currentSeason); }
         function getLogs() { return FFM_DB.logs.filter(l => l.season === currentSeason); }
         function isLocked() { return (FFM_DB.lockedSeasons && FFM_DB.lockedSeasons[currentSeason]) || false; }
-        
         function isScheduleLocked() { return (FFM_DB.lockedSchedule && FFM_DB.lockedSchedule[currentSeason]) || false; }
         
         function toggleScheduleLock() {
@@ -623,10 +644,10 @@
         
         function applyScheduleLockState() {
             const locked = isScheduleLocked();
-            document.getElementById('sch-date').disabled = locked;
-            document.getElementById('sch-md').disabled = locked;
-            document.getElementById('sch-team1').disabled = locked;
-            document.getElementById('sch-team2').disabled = locked;
+            const dateEl = document.getElementById('sch-date'); if(dateEl) dateEl.disabled = locked;
+            const mdEl = document.getElementById('sch-md'); if(mdEl) mdEl.disabled = locked;
+            const t1El = document.getElementById('sch-team1'); if(t1El) t1El.disabled = locked;
+            const t2El = document.getElementById('sch-team2'); if(t2El) t2El.disabled = locked;
             const btnAddSch = document.getElementById('btn-add-sch');
             if(btnAddSch) { btnAddSch.disabled = locked; btnAddSch.style.background = locked ? '#e0e0e0' : 'var(--primary)'; }
             
@@ -642,7 +663,8 @@
         }
 
         function renderSeasonSelect() {
-            const sel = document.getElementById('season-select'); sel.innerHTML = '';
+            const sel = document.getElementById('season-select'); if(!sel) return;
+            sel.innerHTML = '';
             FFM_DB.seasons.forEach(s => sel.innerHTML += `<option value="${s}">${s} 시즌</option>`);
             if(FFM_DB.seasons.includes(currentSeason)) sel.value = currentSeason;
             
@@ -677,11 +699,17 @@
         }
 
         function changeSeason() {
-            currentSeason = document.getElementById('season-select').value;
+            const sel = document.getElementById('season-select'); if(!sel) return;
+            currentSeason = sel.value;
             if(document.getElementById('home-season-text')) document.getElementById('home-season-text').innerText = currentSeason;
             if(document.getElementById('del-target-season')) document.getElementById('del-target-season').innerText = currentSeason;
             
-            initRosterTable(); updateRightPanel(); renderSchedule(); populateTeamDropdowns(); updateRankings(); renderLogs();
+            // v2.12 에러 방지: DB저장 로직과 화면 그리기 분리
+            initRosterTable(); 
+            renderSchedule(); 
+            populateTeamDropdowns(); 
+            updateRankings(); 
+            renderLogs();
             populateGameMDDropdown();
             applyScheduleLockState();
         }
@@ -695,9 +723,8 @@
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             
-            // v2.11 모바일 에러 방지를 위해 event 객체 없이 클래스 부착
             document.querySelectorAll('.nav-btn').forEach(b => {
-                if(b.getAttribute('onclick').includes(tabId)) b.classList.add('active');
+                if(b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId)) b.classList.add('active');
             });
             
             if(tabId === 'review') populateReviewSelect();
@@ -736,35 +763,20 @@
             const cRoster = getRoster();
             if(cRoster.length > 0) { cRoster.forEach(p => addRosterRow(p.id, p.name, p.team)); } else { for(let i=0; i<4; i++) addRosterRow(); }
             applyLockState();
+            renderRosterPreview(); 
         }
 
+        // v2.12 입력 시마다 저장과 렌더링을 안전하게 분리
         function addRosterRow(id='', name='', team='') {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td><input type="text" class="r-id" value="${id}" placeholder="번호" oninput="updateRightPanel()"></td>
-                <td><input type="text" class="r-name" value="${name}" placeholder="이름" oninput="updateRightPanel()"></td>
-                <td><input type="text" class="r-team" value="${team}" placeholder="팀명" oninput="updateRightPanel()"></td>
-                <td><button class="del-btn" onclick="this.closest('tr').remove(); updateRightPanel();">×</button></td>`;
+            tr.innerHTML = `<td><input type="text" class="r-id" value="${id}" placeholder="번호" oninput="saveAndRenderRoster()"></td>
+                <td><input type="text" class="r-name" value="${name}" placeholder="이름" oninput="saveAndRenderRoster()"></td>
+                <td><input type="text" class="r-team" value="${team}" placeholder="팀명" oninput="saveAndRenderRoster()"></td>
+                <td><button class="del-btn" onclick="this.closest('tr').remove(); saveAndRenderRoster();">×</button></td>`;
             document.getElementById('roster-input-body').appendChild(tr);
         }
-        
-        function setTeamColor(team, color) {
-            if(!FFM_DB.teamColors) FFM_DB.teamColors = {}; 
-            FFM_DB.teamColors[currentSeason + '_' + team] = color;
-            saveToDB(); updateRightPanel();
-        }
 
-        function getTeamColor(team) { 
-            return (FFM_DB.teamColors && FFM_DB.teamColors[currentSeason + '_' + team]) ? FFM_DB.teamColors[currentSeason + '_' + team] : '#3e2723'; 
-        }
-
-        function setCaptain(playerId, team) {
-            FFM_DB.roster.forEach(p => {
-                if(p.team === team && p.season === currentSeason) p.isCaptain = (p.id === playerId);
-            });
-            saveToDB(); updateRightPanel();
-        }
-
-        function updateRightPanel() {
+        function saveAndRenderRoster() {
             let tempRoster = [];
             document.querySelectorAll('#roster-input-body tr').forEach(row => {
                 const name = row.querySelector('.r-name').value.trim(); const team = row.querySelector('.r-team').value.trim();
@@ -773,9 +785,16 @@
                 let isCap = oldP ? oldP.isCaptain : false;
                 if (name && team) tempRoster.push({ season: currentSeason, id, name, team, isCaptain: isCap });
             });
-            FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason); FFM_DB.roster.push(...tempRoster); saveToDB(); populateTeamDropdowns(); populateGameMDDropdown(); 
-            
-            const grouped = {}; tempRoster.forEach(p => { if(!grouped[p.team]) grouped[p.team] = { players: [] }; grouped[p.team].players.push(p); });
+            FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason); FFM_DB.roster.push(...tempRoster); 
+            saveToDB(); 
+            populateTeamDropdowns(); 
+            populateGameMDDropdown();
+            renderRosterPreview();
+        }
+        
+        function renderRosterPreview() {
+            const cRoster = getRoster();
+            const grouped = {}; cRoster.forEach(p => { if(!grouped[p.team]) grouped[p.team] = { players: [] }; grouped[p.team].players.push(p); });
             const panel = document.getElementById('roster-preview-panels'); if(!panel) return; panel.innerHTML = '';
             for(let t in grouped) {
                 let tc = getTeamColor(t);
@@ -793,6 +812,23 @@
                 panel.innerHTML += html + `</div></div>`;
             }
         }
+
+        function setTeamColor(team, color) {
+            if(!FFM_DB.teamColors) FFM_DB.teamColors = {}; 
+            FFM_DB.teamColors[currentSeason + '_' + team] = color;
+            saveToDB(); renderRosterPreview(); updateRankings(); renderSchedule();
+        }
+
+        function getTeamColor(team) { 
+            return (FFM_DB.teamColors && FFM_DB.teamColors[currentSeason + '_' + team]) ? FFM_DB.teamColors[currentSeason + '_' + team] : '#3e2723'; 
+        }
+
+        function setCaptain(playerId, team) {
+            FFM_DB.roster.forEach(p => {
+                if(p.team === team && p.season === currentSeason) p.isCaptain = (p.id === playerId);
+            });
+            saveToDB(); renderRosterPreview();
+        }
         
         function downloadRosterTemplate() {
             const csv = "\uFEFF번호,이름,팀명\n1,강지우,Bulldogs\n2,구재영,Bulldogs\n3,김시온,HTS";
@@ -809,7 +845,7 @@
                     if(index === 0 && (cols[0].includes('번호') || cols[1].includes('이름'))) return; 
                     if(cols.length >= 3) { let id = cols[0].trim(); let name = cols[1].trim(); let team = cols[2].trim(); if(name && team) newRoster.push({season: currentSeason, id, name, team, isCaptain:false}); }
                 });
-                if(newRoster.length > 0) { FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason); FFM_DB.roster.push(...newRoster); saveToDB(); initRosterTable(); updateRightPanel(); alert(newRoster.length + "명의 명단이 업로드되었습니다."); } else { alert("올바른 데이터가 없습니다."); }
+                if(newRoster.length > 0) { FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason); FFM_DB.roster.push(...newRoster); saveToDB(); initRosterTable(); alert(newRoster.length + "명의 명단이 업로드되었습니다."); } else { alert("올바른 데이터가 없습니다."); }
             }; reader.readAsText(file, "utf-8"); e.target.value = '';
         }
 
@@ -835,7 +871,10 @@
             ['sch-team1', 'sch-team2', 'game-team-offense', 'game-team-defense'].forEach(id => {
                 const el = document.getElementById(id); if(el) { el.innerHTML = ""; teams.forEach(t => el.innerHTML += `<option value="${t}">${t}</option>`); }
             });
-            if(teams.length > 1) { document.getElementById('sch-team2').selectedIndex = 1; document.getElementById('game-team-defense').selectedIndex = 1; }
+            if(teams.length > 1) { 
+                const st2 = document.getElementById('sch-team2'); if(st2) st2.selectedIndex = 1; 
+                const gd2 = document.getElementById('game-team-defense'); if(gd2) gd2.selectedIndex = 1; 
+            }
         }
         function addSchedule() {
             const d=document.getElementById('sch-date').value, m=document.getElementById('sch-md').value.trim(), t1=document.getElementById('sch-team1').value, t2=document.getElementById('sch-team2').value;
@@ -849,7 +888,7 @@
         }
         
         function renderSchedule() {
-            const list = document.getElementById('schedule-list'); list.innerHTML = ''; const cSch = getSchedule();
+            const list = document.getElementById('schedule-list'); if(!list) return; list.innerHTML = ''; const cSch = getSchedule();
             let isSchLocked = isScheduleLocked();
             
             cSch.forEach(s => {
@@ -909,18 +948,13 @@
 
         function getTeamMatchStats(md) {
             let tStats = {};
-            
             getLogs().filter(l => l.matchDay === md).forEach(l => {
                 if(!tStats[l.team] && l.team !== '-') tStats[l.team] = { pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0 };
                 
                 if (['AR', 'P', 'PF', 'No stats'].includes(l.action)) {
                     if (l.possession && l.possession !== '-') {
                         if(!tStats[l.possession]) tStats[l.possession] = { pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0 };
-                        if (l.down === 'xP') {
-                            tStats[l.possession].xpDown++;
-                        } else {
-                            tStats[l.possession].offDown++;
-                        }
+                        if (l.down === 'xP') { tStats[l.possession].xpDown++; } else { tStats[l.possession].offDown++; }
                     }
                 }
 
@@ -985,7 +1019,7 @@
                           <td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.gf - t.ga}</td></tr>`;
             });
             sHtml += `</table>`;
-            if(document.getElementById('rank-team-points-box')) document.getElementById('rank-team-points-box').innerHTML = sHtml;
+            const rtpBox = document.getElementById('rank-team-points-box'); if(rtpBox) rtpBox.innerHTML = sHtml;
 
             let dHtml = `<table class="adv-table"><tr><th>팀</th><th>경기수</th><th>공격 다운</th><th>수비 다운</th><th>전진 성공</th><th>전진성공률</th><th>수비성공</th><th>수비성공률</th><th>러닝시도</th><th>패스시도</th><th>패스성공률</th><th>터치다운</th><th>xP</th><th>xP 성공률</th><th>경기당 득점</th><th>경기당 실점</th><th>경기당 공격다운</th><th>경기당 수비다운</th></tr>`;
             sortedTeams.forEach(t => {
@@ -1006,12 +1040,12 @@
                           <td>${ptsPerG}</td><td>${gaPerG}</td><td>${offDPerG}</td><td>${defDPerG}</td></tr>`;
             });
             dHtml += `</table>`;
-            if(document.getElementById('rank-team-details-box')) document.getElementById('rank-team-details-box').innerHTML = dHtml;
+            const rtdBox = document.getElementById('rank-team-details-box'); if(rtdBox) rtdBox.innerHTML = dHtml;
 
             let hRankHtml = `<table style="width:100%; text-align:center; border-collapse:collapse; font-size:13px;"><tr style="background:#f9f9f9;"><th style="padding:8px; color:var(--text-light);">순위</th><th style="color:var(--text-light);">팀</th><th style="color:var(--text-light);">승</th><th style="color:var(--text-light);">무</th><th style="color:var(--text-light);">패</th><th style="color:var(--text-light);">승점</th></tr>`;
             sortedTeams.forEach((t, i) => hRankHtml += `<tr><td style="padding:10px 0; border-bottom:1px solid #eee;">${i+1}</td><td style="border-bottom:1px solid #eee;"><b style="color:${getTeamColor(t.team)};">${t.team}</b></td><td style="border-bottom:1px solid #eee;">${t.w}</td><td style="border-bottom:1px solid #eee;">${t.d}</td><td style="border-bottom:1px solid #eee;">${t.l}</td><td style="border-bottom:1px solid #eee;"><b style="color:var(--primary);">${t.pts}</b></td></tr>`);
             hRankHtml += `</table>`;
-            if(document.getElementById('home-team-rank')) document.getElementById('home-team-rank').innerHTML = hRankHtml;
+            const htrBox = document.getElementById('home-team-rank'); if(htrBox) htrBox.innerHTML = hRankHtml;
 
             let pStats = {}; getRoster().forEach(p => pStats[p.id] = {name: p.name, team: p.team, run:0, pass:0, pAtt:0, catch:0, cAtt:0, td:0, xp:0, def:0, f:0, c:0, i:0, bz:0, mvp:0});
             let totPAtt=0, totCAtt=0;
@@ -1046,8 +1080,9 @@
             const t_mvp = getTop((a,b)=>b.mvp-a.mvp, p=>p.mvp>0); const t_pts = getTop((a,b)=>(b.td*6+b.xp)-(a.td*6+a.xp), p=>(p.td*6+p.xp)>0);
             const t_passR = getTop((a,b)=>(b.pass/b.pAtt)-(a.pass/a.pAtt), p=>p.pAtt >= avgPAtt && p.pAtt>0); const t_catchR = getTop((a,b)=>(b.catch/b.cAtt)-(a.catch/a.cAtt), p=>p.cAtt >= avgCAtt && p.cAtt>0);
 
-            if(document.getElementById('rank-ind-box')) {
-                document.getElementById('rank-ind-box').innerHTML = 
+            const riBox = document.getElementById('rank-ind-box');
+            if(riBox) {
+                riBox.innerHTML = 
                     genBox('🏆 BEST', t_mvp, p=>p.mvp+'회') + 
                     genBox('러닝 성공', t_run, p=>p.run+'회') + 
                     genBox('캐치 성공', t_catch, p=>p.catch+'회') + 
@@ -1077,7 +1112,7 @@
             addTopRow('플래그 수비', t_f, p=>p.f+'회');
             addTopRow('수비 성공', t_def, p=>p.def+'회');
             hIndHtml += `</table>`;
-            if(document.getElementById('home-ind-rank')) document.getElementById('home-ind-rank').innerHTML = hIndHtml;
+            const hiBox = document.getElementById('home-ind-rank'); if(hiBox) hiBox.innerHTML = hIndHtml;
         }
 
         function populateGameMDDropdown() {
@@ -1103,9 +1138,7 @@
         function switchOffDef() {
             const offSel = document.getElementById('game-team-offense'); const defSel = document.getElementById('game-team-defense');
             let temp = offSel.value; offSel.value = defSel.value; defSel.value = temp;
-            
-            setDown('1st');
-            loadMatchPlayers();
+            setDown('1st'); loadMatchPlayers();
         }
 
         function setHalf(half) { currentHalf = half; document.querySelectorAll('.half-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.half-btn').forEach(b=>{if(b.innerText===half) b.classList.add('active');}); }
@@ -1210,7 +1243,7 @@
         }
 
         function renderLogs() {
-            const logBox = document.getElementById('game-log'); logBox.innerHTML = "";
+            const logBox = document.getElementById('game-log'); if(!logBox) return; logBox.innerHTML = "";
             const md = document.getElementById('game-md-select').value;
             [...getLogs()].filter(l => l.matchDay === md).reverse().forEach(log => {
                 let actColor = log.action === 'No stats' ? 'background:#7f8c8d; color:white;' : '';
@@ -1275,7 +1308,7 @@
                 </tr>`;
             });
             tableHTML += `</tbody></table>`;
-            document.getElementById('live-stats-table-container').innerHTML = tableHTML;
+            const lstContainer = document.getElementById('live-stats-table-container'); if(lstContainer) lstContainer.innerHTML = tableHTML;
 
             let st = getTeamMatchStats(md);
             let s1 = st[t1] || {pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0};
@@ -1309,7 +1342,7 @@
                 </table>
                 </div>
             `;
-            document.getElementById('live-team-stats-container').innerHTML = teamStatsHTML;
+            const ltContainer = document.getElementById('live-team-stats-container'); if(ltContainer) ltContainer.innerHTML = teamStatsHTML;
         }
 
         function openBestPlayerModal() {
@@ -1390,10 +1423,11 @@
 
         // --- 리뷰 탭 ---
         function populateReviewSelect() {
-            const sel1 = document.getElementById('review-md-select'); sel1.innerHTML = '<option value="">매치데이 선택</option>';
-            const sel2 = document.getElementById('review-view-md-select'); sel2.innerHTML = '<option value="">매치데이 선택</option>';
+            const sel1 = document.getElementById('review-md-select'); if(sel1) sel1.innerHTML = '<option value="">매치데이 선택</option>';
+            const sel2 = document.getElementById('review-view-md-select'); if(sel2) sel2.innerHTML = '<option value="">매치데이 선택</option>';
             [...new Set(getSchedule().map(s=>s.md))].forEach(m => {
-                sel1.innerHTML += `<option value="${m}">${m}</option>`; sel2.innerHTML += `<option value="${m}">${m}</option>`;
+                if(sel1) sel1.innerHTML += `<option value="${m}">${m}</option>`; 
+                if(sel2) sel2.innerHTML += `<option value="${m}">${m}</option>`;
             });
         }
         
@@ -1586,15 +1620,15 @@
                 </div>
 
                 <div style="margin-top:20px; padding-top:20px; border-top:1px solid #ddd;">
-                    <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트 (학생)</h3>
+                    <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트 (학생 피드백)</h3>
                     <div class="review-team-split">
                         <div style="flex:1;">
-                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; font-size:14px;">[ ${sch.team1} ]</h4>
+                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; text-align:center;">[ ${sch.team1} ]</h4>
                             ${t1Html}
                         </div>
                         <div style="width:2px; background:#ddd;"></div>
                         <div style="flex:1;">
-                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team2)}; font-size:14px;">[ ${sch.team2} ]</h4>
+                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team2)}; text-align:center;">[ ${sch.team2} ]</h4>
                             ${t2Html}
                         </div>
                     </div>
@@ -1610,11 +1644,13 @@
 
         // --- 리포트 탭 ---
         function populateReportSelect() {
-            const sel = document.getElementById('report-player-select'); sel.innerHTML = '<option value="">선수 선택</option>';
+            const sel = document.getElementById('report-player-select'); if(!sel) return;
+            sel.innerHTML = '<option value="">선수 선택</option>';
             getRoster().forEach(p => sel.innerHTML += `<option value="${p.id}|${p.name}|${p.team}">[${p.team}] ${p.name}</option>`);
         }
         function populateReportTeamSelect() {
-            const sel = document.getElementById('report-team-select'); sel.innerHTML = '<option value="">팀 선택</option>';
+            const sel = document.getElementById('report-team-select'); if(!sel) return;
+            sel.innerHTML = '<option value="">팀 선택</option>';
             [...new Set(getRoster().map(p => p.team))].forEach(t => sel.innerHTML += `<option value="${t}">${t}</option>`);
         }
 
