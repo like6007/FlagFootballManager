@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FlagFootball Manager by PFL v2.09 (Final UI)</title>
-    <!-- 브라우저 탭 아이콘 -->
+    <title>FlagFootball Manager by PFL v2.10 (Final UI)</title>
     <link rel="icon" type="image/jpeg" href="PFL.jpg">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -21,7 +20,6 @@
         .logo-text { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-dark); display: flex; align-items: center; gap: 6px; flex-wrap: wrap;}
         .version-badge { background: #eee; padding: 2px 6px; border-radius: 4px; font-size: 11px; color: #555; transition: 0.3s;}
         
-        /* v2.09: 드롭다운 로고 옆으로 이동 */
         .season-selector { margin-left: 10px; display: flex; align-items: center; }
         .season-selector select { padding: 4px 10px; border: none; background: #efebe9; border-radius: 6px; font-weight: bold; color: var(--primary); font-size: 13px; outline: none; cursor: pointer;}
         
@@ -54,8 +52,6 @@
         .game-controls-wrapper { display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #eee; }
         .game-row-1 { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
         .game-row-2 { display: flex; gap: 10px; justify-content: center; align-items: center; background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); flex-wrap: wrap;}
-        
-        /* v2.09: 기록 탭 버튼 왼쪽 정렬 */
         .game-row-3 { display: flex; gap: 10px; justify-content: flex-start; align-items: center; margin-top: 5px; flex-wrap: wrap; padding-left:5px;}
 
         .state-btn { padding: 8px 15px; border: none; background: white; border-radius: 6px; font-weight: bold; font-size:13px; cursor: pointer; color: #555; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: 0.2s;}
@@ -108,14 +104,13 @@
 
         .review-block { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
         
-        /* v2.09: 개인 리포트 레이아웃 (방사형 | 꺾은선) */
-        .report-grid-top { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .report-grid-top { display: grid; grid-template-columns: 260px 1fr; gap: 15px; margin-bottom: 15px; }
+        .report-right-col { display: flex; flex-direction: column; gap: 15px; }
         
         .csv-input { display: none; }
 
-        /* v2.09: 개인 기록 표 셀 가로길이 통일 */
         .report-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background: white; border: 2px solid var(--text-dark); table-layout: fixed; min-width: 800px;}
-        .report-table th { border: 1px solid #eee; padding: 10px 4px; background: #efebe9; font-weight: 800; color:var(--primary); white-space: nowrap;}
+        .report-table th { border: 1px solid #eee; padding: 10px 4px; background: #efebe9; font-weight: 800; color:var(--text-dark); white-space: nowrap;}
         .report-table td { border: 1px solid #eee; padding: 10px 4px; font-weight:600; color:#444; white-space: nowrap;}
         
         .live-stats-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: center; background: white; }
@@ -123,19 +118,31 @@
         .live-stats-table td { padding: 6px; border-bottom: 1px solid #eee; }
         .highlight-stat { color: var(--red-team); font-weight: 900; }
         
-        .report-paper { border: 2px solid var(--text-dark); padding: 30px; border-radius: 8px; background: #fff; margin-top: 15px; display: none; box-shadow: 4px 4px 15px rgba(0,0,0,0.06);}
+        .report-paper { border: none; padding: 20px 0; background: #fff; margin-top: 15px; display: none; }
         .report-title-sec { text-align: center; border-bottom: 4px solid var(--text-dark); padding-bottom: 15px; margin-bottom: 20px; }
-        .report-score-sec { display: flex; justify-content: center; align-items: center; gap: 20px; font-size: 24px; font-weight: 900; margin-bottom: 25px; }
-        .score-box-review { background:var(--text-dark); color:white; padding:6px 20px; border-radius:12px; }
+        .review-split-layout { display: flex; gap: 20px; flex-wrap: wrap; }
+        .review-left-col { flex: 1; min-width: 280px; border-right: 1px solid #ddd; padding-right: 20px; }
+        .review-right-col { flex: 1.5; min-width: 450px; }
         
-        .vs-table { width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px; font-size:14px; }
-        .vs-table th { background: #efebe9; padding: 10px; color: var(--text-dark); border-bottom: 2px solid #d7ccc8; }
-        .vs-table td { padding: 10px; border-bottom: 1px solid #eee; }
-        .vs-table td:first-child { text-align: right; font-weight: bold; width: 35%; color: var(--primary); }
-        .vs-table td:nth-child(2) { font-size: 12px; color: #888; background: #fdfdfd; width: 30%; font-weight:bold; }
-        .vs-table td:last-child { text-align: left; font-weight: bold; width: 35%; color: var(--primary); }
+        .score-box-review { background:var(--text-dark); color:white; padding:4px 15px; border-radius:12px; font-size: 28px; font-weight: 900;}
         
-        .review-team-split { display: flex; gap: 20px; background: #f4f6f6; padding: 15px; border-radius: 8px; }
+        .vs-table { width: 100%; border-collapse: collapse; text-align: center; margin-bottom: 20px; font-size:13px; }
+        .vs-table td { padding: 8px 4px; border-bottom: 1px solid #eee; }
+        .vs-table td:first-child { text-align: center; font-weight: bold; width: 30%; color: #333; }
+        .vs-table td:nth-child(2) { font-size: 11px; color: #888; background: #fdfdfd; width: 40%; font-weight:bold; }
+        .vs-table td:last-child { text-align: center; font-weight: bold; width: 30%; color: #333; }
+        
+        .player-card { border:2px solid var(--text-dark); background:white; overflow:hidden; }
+        .player-card-header { background:white; border-bottom:2px solid var(--text-dark); display:flex; }
+        .player-card-team { flex:1; font-weight:bold; padding:5px; text-align:center; border-right:1px solid var(--text-dark); }
+        .player-card-pos { flex:1; text-align:center; padding:5px; font-size:12px; color:#555;}
+        .player-card-name { text-align:center; padding:8px; font-size:18px; font-weight:900; border-bottom:2px solid var(--text-dark); }
+        .player-card-grid { display:flex; font-size:11px; text-align:center; }
+        .player-card-col { flex:1; }
+        .player-card-col:first-child { border-right:2px solid var(--text-dark); }
+        .player-card-row { display:flex; border-bottom:1px solid #ddd; }
+        .player-card-row div { flex:1; padding:4px 2px; }
+        .player-card-row div:first-child { font-weight:bold; border-right:1px solid #ddd; background:#fcfcfc;}
 
         @media (max-width: 768px) {
             .navbar { padding: 10px 15px 0 15px; }
@@ -144,15 +151,14 @@
             .nav-btn { font-size: 13px; padding: 0 8px; height: 35px; }
             
             .report-grid-top { grid-template-columns: 1fr; }
+            .review-left-col { border-right: none; padding-right: 0; border-bottom: 1px dashed #ddd; padding-bottom: 20px; }
+            .review-right-col { min-width: 100%; }
             
             .game-player-row { flex-direction: column; align-items: flex-start; padding: 8px 0; gap: 4px;}
             .game-player-name { width: 100%; font-size: 14px; margin-bottom: 2px;}
             .game-action-wrapper { display: flex; width: 100%; flex-wrap: wrap; gap: 4px; }
             .game-action-group { border-right: none !important; padding: 0 !important; gap: 4px; flex-wrap: wrap;}
             .action-btn { width: 32px; height: 32px; font-size: 10px; }
-            
-            .review-team-split { flex-direction: column; gap: 15px; }
-            .review-team-split div[style*="width:2px"] { display: none; }
             
             #rank-ind-box { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important; }
         }
@@ -164,11 +170,10 @@
         <div class="header-top">
             <div class="logo-container" onclick="switchTab('home')">
                 <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/a0522d/ffffff?text=PFL'">
-                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator" style="background:#e8f5e9; color:#2e7d32;">v2.09 ☁️</span></div>
+                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator" style="background:#e8f5e9; color:#2e7d32;">v2.10 ☁️</span></div>
             </div>
             <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         </div>
-        <!-- v2.09 탭 순서 변경 (홈/팀/일정/순위/기록/리뷰/리포트/설정) -->
         <div class="nav-menu">
             <button class="nav-btn active" onclick="switchTab('home')">홈</button>
             <button class="nav-btn" onclick="switchTab('team')">팀</button>
@@ -235,7 +240,6 @@
                         <button class="btn-green" style="background:#bdc3c7; width:auto; padding:6px 12px; margin:0;" onclick="downloadScheduleTemplate()">양식 다운로드</button>
                         <input type="file" id="csv-schedule" class="csv-input" accept=".csv" onchange="handleScheduleCSV(event)">
                         <button class="btn-green" id="btn-csv-schedule" style="width: auto; padding: 6px 12px; margin:0;" onclick="document.getElementById('csv-schedule').click()">CSV 업로드</button>
-                        <!-- v2.09 일정 잠금 버튼 신설 -->
                         <button class="btn-green" id="btn-lock-schedule" style="background:var(--text-dark); width:auto; padding:6px 12px; margin:0;" onclick="toggleScheduleLock()">일정 잠금</button>
                     </div>
                 </div>
@@ -297,7 +301,6 @@
                             <span style="color:#3498db; font-weight:900; font-size:14px;">🛡️ 수비</span>
                         </div>
 
-                        <!-- v2.09: 다운 및 하프 패널 왼쪽 정렬됨 -->
                         <div class="game-row-3">
                             <div style="display:flex; gap:4px;">
                                 <button class="state-btn half-btn active" onclick="setHalf('전반전')">전반전</button>
@@ -369,7 +372,7 @@
                     <h3 style="margin-top:15px; font-size:15px;">🏆 베스트 플레이어 코멘트</h3>
                     <div id="review-mvp-area"></div>
                     
-                    <h3 style="margin-top:20px; font-size:15px;">🗣️ 경기 코멘트 (팀별)</h3>
+                    <h3 style="margin-top:20px; font-size:15px;">🗣️ 경기 코멘트 (학생 및 팀 피드백)</h3>
                     <div id="review-team-area"></div>
                     
                     <h3 style="margin-top:20px; font-size:15px;">👨‍🏫 표쌤의 경기 코멘트</h3>
@@ -395,40 +398,39 @@
                 </div>
                 <div id="report-result-area" style="display:none;">
                     
-                    <!-- v2.09 레이아웃: 방사형 & 꺾은선 상단 1:1 배치 -->
                     <div class="report-grid-top">
-                        <!-- 방사형 차트 -->
                         <div class="review-block" style="display:flex; flex-direction:column; justify-content:center; align-items:center; margin-bottom:0;">
                             <h3 id="report-p-name" style="color:var(--primary); margin-top:0; font-size:22px;"></h3>
                             <div id="report-p-team" style="color:white; padding:4px 12px; border-radius:12px; font-weight:bold; margin-top:-8px; font-size:13px;"></div>
                             <canvas id="playerRadarChart" width="240" height="240"></canvas>
                         </div>
                         
-                        <!-- 꺾은선 차트 -->
-                        <div class="review-block" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
-                            <h4 style="margin-top:0; color:var(--text-dark); font-size:15px; text-align:center;">📈 경기별 활약 추이</h4>
-                            <div style="width:100%; height:240px;">
-                                <canvas id="playerLineChart"></canvas>
+                        <div class="report-right-col">
+                            <div class="review-block" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
+                                <h4 style="margin-top:0; color:var(--text-dark); font-size:15px; text-align:center;">📈 경기별 활약 추이</h4>
+                                <div style="width:100%; height:200px;">
+                                    <canvas id="playerLineChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <div class="review-block" style="background:white; padding:0; border:none; overflow-x:auto; margin-bottom:0;">
+                                <table class="report-table" style="min-width:100%; font-size:12px;">
+                                    <tr><th>BEST</th><td id="rep-best">0회</td><th>터치다운</th><td id="rep-td">0회</td></tr>
+                                    <tr><th>러닝성공</th><td id="rep-run">0회</td><th>추가점수(xP)</th><td id="rep-xp">0회</td></tr>
+                                    <tr><th>캐치성공</th><td id="rep-catch">0회</td><th>총득점</th><td id="rep-pts" style="font-weight:bold; color:var(--primary);">0점</td></tr>
+                                    <tr><th>캐치성공률</th><td id="rep-catch-rt">0%</td><th>플래그 수비</th><td id="rep-flag">0회</td></tr>
+                                    <tr><th>패스성공</th><td id="rep-pass">0회</td><th>커트 수비</th><td id="rep-cut">0회</td></tr>
+                                    <tr><th>패스성공률</th><td id="rep-pass-rt">0%</td><th>인터셉트</th><td id="rep-int">0회</td></tr>
+                                    <tr><th>블리츠</th><td id="rep-blitz">0회</td><th>수비성공</th><td id="rep-def" style="font-weight:bold; color:var(--red-team);">0회</td></tr>
+                                </table>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 개인 기록표 (전체 너비) -->
-                    <div class="review-block" style="background:white; padding:0; border:none; overflow-x:auto;">
-                        <table class="report-table" style="min-width:100%;">
-                            <tr><th>BEST</th><td id="rep-best">0회</td><th>터치다운</th><td id="rep-td">0회</td></tr>
-                            <tr><th>러닝성공</th><td id="rep-run">0회</td><th>추가점수(xP)</th><td id="rep-xp">0회</td></tr>
-                            <tr><th>캐치성공</th><td id="rep-catch">0회</td><th>총득점</th><td id="rep-pts" style="font-weight:bold; color:var(--primary);">0점</td></tr>
-                            <tr><th>캐치성공률</th><td id="rep-catch-rt">0%</td><th>플래그 수비</th><td id="rep-flag">0회</td></tr>
-                            <tr><th>패스성공</th><td id="rep-pass">0회</td><th>커트 수비</th><td id="rep-cut">0회</td></tr>
-                            <tr><th>패스성공률</th><td id="rep-pass-rt">0%</td><th>인터셉트</th><td id="rep-int">0회</td></tr>
-                            <tr><th>블리츠</th><td id="rep-blitz">0회</td><th>수비성공</th><td id="rep-def" style="font-weight:bold; color:var(--red-team);">0회</td></tr>
-                        </table>
+                    <div style="width:100%; display:flex; flex-direction:column; gap:10px;">
+                        <div style="background:#fff; padding:15px; border-left:4px solid var(--primary); border-radius:4px; font-weight:bold; font-size:13px; line-height:1.6;" id="report-p-comment"></div>
+                        <div style="background:#f4f6f6; padding:15px; border-left:4px solid var(--text-dark); border-radius:4px; font-weight:bold; font-size:13px; line-height:1.6;" id="report-p-comment-2"></div>
                     </div>
-                    
-                    <!-- 선수 코멘트 (전체 너비) -->
-                    <div style="width:100%; margin-top:15px; background:#fff; padding:15px; border-left:4px solid var(--primary); border-radius:4px; font-weight:bold; font-size:14px; line-height:1.6;" id="report-p-comment"></div>
-                    
                 </div>
             </div>
 
@@ -444,11 +446,12 @@
                         <ul style="line-height:1.6; font-size:13px; color:#444;" id="team-rep-brief"></ul>
                     </div>
                     <h3 style="margin-top:20px; margin-bottom:10px; color:var(--text-dark); font-size:15px;">🏆 팀 내 부문별 TOP 2</h3>
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:10px;" id="team-rep-tops"></div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;" id="team-rep-tops"></div>
                     <div class="review-block" style="margin-top:20px; background:#efebe9; border-left:5px solid var(--primary);">
                         <h3 style="margin-top:0; color:var(--text-dark); font-size:15px;">🤖 AI 심층 전력 분석</h3>
                         <ul style="line-height:1.8; font-size:13px; color:#444; margin-bottom:0;" id="team-rep-ai"></ul>
                     </div>
+                    <div id="team-rep-cards"></div>
                 </div>
             </div>
         </div>
@@ -482,7 +485,6 @@
                 <button class="btn-primary" style="background:var(--text-dark); width:100%; margin-top:10px;" onclick="clearAllData()">⚠️ 시스템 전체 데이터 완전 초기화</button>
             </div>
         </div>
-
     </div>
 
     <!-- 모달 창들 -->
@@ -515,9 +517,6 @@
     </div>
 
     <script>
-        // ============================================================================
-        // 🔥 Firebase 설정
-        // ============================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyD3ji6vMLw_TK0QEm2R_RF2nd-XMQIEEeQ",
             authDomain: "pfl-ffm.firebaseapp.com",
@@ -530,7 +529,6 @@
         
         let db = null;
         let isCloudActive = false;
-        
         let radarChartInstance = null;
         let lineChartInstance = null;
 
@@ -542,12 +540,11 @@
             console.error("Firebase 초기화 에러:", error);
             const indicator = document.getElementById('cloud-indicator');
             if(indicator) {
-                indicator.innerText = 'v2.09 ⚠️오프라인';
+                indicator.innerText = 'v2.10 ⚠️오프라인';
                 indicator.style.background = '#ffebee';
                 indicator.style.color = '#c62828';
             }
         }
-        // ============================================================================
 
         let FFM_DB = { roster: [], schedule: [], logs: [], reviews: {}, lockedSeasons: {}, lockedMatches: {}, lockedSchedule: {}, teamColors: {}, seasons: ['2026', '2025', '2024'] };
         let currentSeason = '2026';
@@ -590,7 +587,6 @@
             if(wrapper) { wrapper.style.gridTemplateColumns = window.innerWidth > 800 ? '1fr 1fr' : '1fr'; }
         }
 
-        // v2.09: 일정 잠금 속성(lockedSchedule) 반영
         function validateDB(parsed) {
             if(!parsed.seasons) parsed.seasons = ['2026', '2025', '2024'];
             if(!parsed.reviews) parsed.reviews = {}; 
@@ -614,7 +610,6 @@
         function getLogs() { return FFM_DB.logs.filter(l => l.season === currentSeason); }
         function isLocked() { return (FFM_DB.lockedSeasons && FFM_DB.lockedSeasons[currentSeason]) || false; }
         
-        // v2.09: 일정 잠금 로직
         function isScheduleLocked() { return (FFM_DB.lockedSchedule && FFM_DB.lockedSchedule[currentSeason]) || false; }
         
         function toggleScheduleLock() {
@@ -639,7 +634,7 @@
             
             const lockBtn = document.getElementById('btn-lock-schedule');
             if(lockBtn) { 
-                lockBtn.innerText = locked ? '🔒 일정 잠금 해제' : '일정 잠금'; 
+                lockBtn.innerText = locked ? '🔓 일정 잠금 해제' : '🔒 일정 잠금'; 
                 lockBtn.style.background = locked ? '#e0e0e0' : 'var(--text-dark)'; 
                 lockBtn.style.color = locked ? '#888' : 'white'; 
             }
@@ -758,11 +753,22 @@
             return (FFM_DB.teamColors && FFM_DB.teamColors[currentSeason + '_' + team]) ? FFM_DB.teamColors[currentSeason + '_' + team] : '#3e2723'; 
         }
 
+        // v2.10: 주장(Captain) 로직 추가
+        function setCaptain(playerId, team) {
+            FFM_DB.roster.forEach(p => {
+                if(p.team === team && p.season === currentSeason) p.isCaptain = (p.id === playerId);
+            });
+            saveToDB(); updateRightPanel();
+        }
+
         function updateRightPanel() {
             let tempRoster = [];
             document.querySelectorAll('#roster-input-body tr').forEach(row => {
                 const name = row.querySelector('.r-name').value.trim(); const team = row.querySelector('.r-team').value.trim();
-                if (name && team) tempRoster.push({ season: currentSeason, id: row.querySelector('.r-id').value.trim()||'-', name, team });
+                const id = row.querySelector('.r-id').value.trim() || '-';
+                let oldP = FFM_DB.roster.find(p => p.season === currentSeason && p.id === id && p.name === name);
+                let isCap = oldP ? oldP.isCaptain : false;
+                if (name && team) tempRoster.push({ season: currentSeason, id, name, team, isCaptain: isCap });
             });
             FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason); FFM_DB.roster.push(...tempRoster); saveToDB(); populateTeamDropdowns(); populateGameMDDropdown(); 
             
@@ -774,8 +780,13 @@
                     <div style="font-weight:900; margin-bottom:10px; font-size:16px; display:flex; justify-content:space-between; align-items:center;">
                         <span style="color:${tc}; border-bottom:3px solid ${tc}; padding-bottom:3px;">${t}</span>
                         <input type="color" class="color-picker-btn" value="${tc}" onchange="setTeamColor('${t}', this.value)" title="팀 색상 지정">
-                    </div><div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:12px;">`;
-                grouped[t].players.forEach(p => html += `<div style="background:#f4f6f6; padding:6px 10px; border-radius:6px;">${p.name}</div>`);
+                    </div><div style="display:flex; flex-direction:column; gap:5px; font-size:12px;">`;
+                grouped[t].players.forEach(p => {
+                    html += `<div style="background:#f4f6f6; padding:6px 10px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;">
+                        <span>${p.name}</span>
+                        <label style="color:#aaa; cursor:pointer; font-weight:bold;"><input type="radio" name="cap_${t}" value="${p.id}" ${p.isCaptain?'checked':''} onchange="setCaptain('${p.id}', '${t}')" style="accent-color:var(--red-team);"> 주장</label>
+                    </div>`;
+                });
                 panel.innerHTML += html + `</div></div>`;
             }
         }
@@ -793,7 +804,7 @@
                 lines.forEach((line, index) => {
                     const cleanLine = line.replace(/\r/g, '').trim(); if(!cleanLine) return; const cols = cleanLine.split(',');
                     if(index === 0 && (cols[0].includes('번호') || cols[1].includes('이름'))) return; 
-                    if(cols.length >= 3) { let id = cols[0].trim(); let name = cols[1].trim(); let team = cols[2].trim(); if(name && team) newRoster.push({season: currentSeason, id, name, team}); }
+                    if(cols.length >= 3) { let id = cols[0].trim(); let name = cols[1].trim(); let team = cols[2].trim(); if(name && team) newRoster.push({season: currentSeason, id, name, team, isCaptain:false}); }
                 });
                 if(newRoster.length > 0) { FFM_DB.roster = FFM_DB.roster.filter(p => p.season !== currentSeason); FFM_DB.roster.push(...newRoster); saveToDB(); initRosterTable(); updateRightPanel(); alert(newRoster.length + "명의 명단이 업로드되었습니다."); } else { alert("올바른 데이터가 없습니다."); }
             }; reader.readAsText(file, "utf-8"); e.target.value = '';
@@ -852,7 +863,7 @@
                     <div style="color:#999; font-size:12px; width:70px;">${s.date}<br><strong style="color:var(--primary);">${s.md}</strong></div>
                     <div style="flex:1; display:flex; justify-content:center; align-items:center; gap:8px; font-size:16px; font-weight:800;">
                         <div style="flex:1; text-align:right;">${s.team1}</div>
-                        <div style="background:var(--text-dark); color:white; padding:2px 10px; border-radius:12px; font-size:14px; min-width:40px; text-align:center;">${tStats[s.team1]?.pts||0} : ${tStats[s.team2]?.pts||0}</div>
+                        <div style="background:var(--text-dark); color:white; padding:4px 10px; border-radius:8px; font-size:14px; min-width:40px; text-align:center;">${tStats[s.team1]?.pts||0} : ${tStats[s.team2]?.pts||0}</div>
                         <div style="flex:1; text-align:left;">${s.team2}</div>
                     </div>
                     <div style="display:flex; gap:4px; width:60px; justify-content:flex-end;">
@@ -1016,7 +1027,6 @@
             const pCount = Object.keys(pStats).length || 1; const avgPAtt = totPAtt / pCount; const avgCAtt = totCAtt / pCount;
             const getTop = (sortFn, filterFn=(x)=>true) => Object.values(pStats).filter(filterFn).sort(sortFn).slice(0, 10);
             
-            // v2.09: 개인 랭킹 표에 '팀' 정보 추가
             const genBox = (title, topArr, valFn, thresholdTxt='') => {
                 let h = `<div class="rank-box"><h4 style="text-align:center; margin:0 0 5px 0; color:var(--primary);">${title}</h4>
                 <div style="font-size:10px; color:#999; text-align:center; margin-bottom:10px;">${thresholdTxt}</div>
@@ -1047,7 +1057,6 @@
                     genBox('🛡️ 수비 성공(F+C+I)', t_def, p=>p.def+'회');
             }
 
-            // v2.09: 홈 탭 기록별 TOP 양식 변경
             let hIndHtml = `<table style="width:100%; text-align:center; border-collapse:collapse; font-size:13px;">
                 <tr style="background:#f9f9f9;"><th style="padding:8px; color:var(--text-light);">기록</th><th style="color:var(--text-light);">선수</th><th style="color:var(--text-light);">팀</th><th style="color:var(--text-light);">수치</th></tr>`;
             const addTopRow = (label, arr, valFn) => {
@@ -1395,7 +1404,7 @@
 
             document.getElementById('review-auto-stats').innerHTML = `<h3 style="margin-top:0; color:var(--primary);">${md} 매치 요약</h3>${scoreText}`;
             
-            const rev = FFM_DB.reviews[currentSeason + '_' + md] || { teacher: '', team1Cmt: '', team2Cmt: '', team1Writer: '', team2Writer: '', mvpComments: {} };
+            const rev = FFM_DB.reviews[currentSeason + '_' + md] || { teacher: '', t1w1: '', t1c1: '', t1w2: '', t1c2: '', t2w1: '', t2c1: '', t2w2: '', t2c2: '', mvpComments: {} };
             
             let mvpArea = document.getElementById('review-mvp-area');
             mvpArea.innerHTML = '';
@@ -1409,22 +1418,29 @@
                     </div>`;
             });
             
-            // v2.09: 작성자 입력 필드 추가
             let teamArea = document.getElementById('review-team-area');
             teamArea.innerHTML = `
-                <div style="margin-bottom:15px; border-bottom:1px dashed #eee; padding-bottom:10px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <label style="font-weight:bold; color:${getTeamColor(sch.team1)};">${sch.team1} 코멘트</label>
-                        <input type="text" id="rev-t1-writer" placeholder="작성자(이름)" value="${rev.team1Writer || ''}" style="padding:6px; border:1px solid #ddd; border-radius:4px; font-size:12px; width:120px;">
+                <div style="margin-bottom:15px; border-bottom:1px dashed #eee; padding-bottom:15px;">
+                    <label style="font-weight:bold; color:${getTeamColor(sch.team1)}; display:block; margin-bottom:5px;">${sch.team1} 코멘트</label>
+                    <div style="display:flex; gap:10px; margin-bottom:5px;">
+                        <input type="text" id="rev-t1-w1" placeholder="작성자 1" value="${rev.t1w1 || ''}" style="width:80px; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:12px;">
+                        <input type="text" id="rev-t1-c1" placeholder="코멘트 내용" value="${rev.t1c1 || ''}" style="flex:1; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:13px;">
                     </div>
-                    <textarea id="rev-t1-cmt" style="width:100%; height:60px; padding:10px; border-radius:6px; border:1px solid #ddd; resize:vertical; margin-top:5px; font-size:13px;">${rev.team1Cmt || ''}</textarea>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="rev-t1-w2" placeholder="작성자 2" value="${rev.t1w2 || ''}" style="width:80px; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:12px;">
+                        <input type="text" id="rev-t1-c2" placeholder="코멘트 내용" value="${rev.t1c2 || ''}" style="flex:1; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:13px;">
+                    </div>
                 </div>
                 <div style="margin-bottom:10px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <label style="font-weight:bold; color:${getTeamColor(sch.team2)};">${sch.team2} 코멘트</label>
-                        <input type="text" id="rev-t2-writer" placeholder="작성자(이름)" value="${rev.team2Writer || ''}" style="padding:6px; border:1px solid #ddd; border-radius:4px; font-size:12px; width:120px;">
+                    <label style="font-weight:bold; color:${getTeamColor(sch.team2)}; display:block; margin-bottom:5px;">${sch.team2} 코멘트</label>
+                    <div style="display:flex; gap:10px; margin-bottom:5px;">
+                        <input type="text" id="rev-t2-w1" placeholder="작성자 1" value="${rev.t2w1 || ''}" style="width:80px; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:12px;">
+                        <input type="text" id="rev-t2-c1" placeholder="코멘트 내용" value="${rev.t2c1 || ''}" style="flex:1; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:13px;">
                     </div>
-                    <textarea id="rev-t2-cmt" style="width:100%; height:60px; padding:10px; border-radius:6px; border:1px solid #ddd; resize:vertical; margin-top:5px; font-size:13px;">${rev.team2Cmt || ''}</textarea>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="rev-t2-w2" placeholder="작성자 2" value="${rev.t2w2 || ''}" style="width:80px; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:12px;">
+                        <input type="text" id="rev-t2-c2" placeholder="코멘트 내용" value="${rev.t2c2 || ''}" style="flex:1; padding:8px; border:1px solid #ddd; border-radius:4px; font-size:13px;">
+                    </div>
                 </div>`;
             
             document.getElementById('review-teacher-text').value = rev.teacher || '';
@@ -1434,21 +1450,20 @@
         function saveReview() {
             const md = document.getElementById('review-md-select').value; 
             const tText = document.getElementById('review-teacher-text').value; 
-            const t1Cmt = document.getElementById('rev-t1-cmt').value;
-            const t2Cmt = document.getElementById('rev-t2-cmt').value;
-            const t1Writer = document.getElementById('rev-t1-writer').value;
-            const t2Writer = document.getElementById('rev-t2-writer').value;
+            
+            const t1w1 = document.getElementById('rev-t1-w1').value; const t1c1 = document.getElementById('rev-t1-c1').value;
+            const t1w2 = document.getElementById('rev-t1-w2').value; const t1c2 = document.getElementById('rev-t1-c2').value;
+            const t2w1 = document.getElementById('rev-t2-w1').value; const t2c1 = document.getElementById('rev-t2-c1').value;
+            const t2w2 = document.getElementById('rev-t2-w2').value; const t2c2 = document.getElementById('rev-t2-c2').value;
             
             let mvpCmts = {};
-            document.querySelectorAll('.rev-mvp-cmt').forEach(el => {
-                mvpCmts[el.getAttribute('data-id')] = el.value;
-            });
+            document.querySelectorAll('.rev-mvp-cmt').forEach(el => { mvpCmts[el.getAttribute('data-id')] = el.value; });
 
-            FFM_DB.reviews[currentSeason + '_' + md] = { teacher: tText, team1Cmt: t1Cmt, team2Cmt: t2Cmt, team1Writer: t1Writer, team2Writer: t2Writer, mvpComments: mvpCmts }; 
+            FFM_DB.reviews[currentSeason + '_' + md] = { teacher: tText, t1w1, t1c1, t1w2, t1c2, t2w1, t2c1, t2w2, t2c2, mvpComments: mvpCmts }; 
             saveToDB(); alert("리뷰가 성공적으로 저장되었습니다!");
         }
 
-        // v2.09: 리뷰 탭 가독성 및 디자인 수정 적용
+        // v2.09 리뷰 레이아웃 기사형 재배치
         function renderReviewView() {
             const md = document.getElementById('review-view-md-select').value; const paper = document.getElementById('review-view-paper');
             if(!md) { paper.style.display = 'none'; return; }
@@ -1470,7 +1485,7 @@
             let pR2 = pAtt2 > 0 ? ((st2.pass/pAtt2)*100).toFixed(1)+'%' : '0%';
 
             const mvpLogs = matchLogs.filter(l => l.action === 'BEST');
-            const rev = FFM_DB.reviews[currentSeason + '_' + md] || { teacher: '등록된 코멘트가 없습니다.', team1Cmt: '', team2Cmt: '', team1Writer: '', team2Writer: '', mvpComments: {} };
+            const rev = FFM_DB.reviews[currentSeason + '_' + md] || { teacher: '등록된 코멘트가 없습니다.', t1w1:'', t1c1:'', t1w2:'', t1c2:'', t2w1:'', t2c1:'', t2w2:'', t2c2:'', mvpComments: {} };
             
             const r1 = getRoster().filter(p => p.team === sch.team1).map(p=>p.name).join(', ') || '명단 없음';
             const r2 = getRoster().filter(p => p.team === sch.team2).map(p=>p.name).join(', ') || '명단 없음';
@@ -1487,10 +1502,13 @@
             
             const genIndTable = (arr, tName) => {
                 if(arr.length === 0) return '';
-                let h = `<h4 style="margin-top:15px; margin-bottom:5px; color:${getTeamColor(tName)}; text-align:left;">■ ${tName} 선수 기록</h4>
+                let h = `<div style="display:flex; align-items:center; gap:8px; margin-top:15px; margin-bottom:5px;">
+                            <div style="width:10px; height:10px; background:${getTeamColor(tName)};"></div>
+                            <h4 style="margin:0; font-size:13px; color:#333;">${tName} 선수 기록</h4>
+                         </div>
                          <div style="overflow-x:auto; margin-bottom:15px;">
-                         <table class="report-table" style="min-width:800px; font-size:12px; white-space:nowrap; text-align:center; table-layout:fixed; width:100%;">
-                         <tr style="background:#efebe9;"><th>이름</th><th>러닝성공</th><th>캐치성공</th><th>캐치실패</th><th>패스성공</th><th>패스실패</th><th>터치다운</th><th>추가점수</th><th>플래그</th><th>커트</th><th>인터셉트</th><th>블리츠</th></tr>`;
+                         <table class="report-table">
+                         <tr style="background:#fcfcfc;"><th>이름</th><th>러닝성공</th><th>캐치성공</th><th>캐치실패</th><th>패스성공</th><th>패스실패</th><th>터치다운</th><th>추가점수</th><th>플래그</th><th>커트</th><th>인터셉트</th><th>블리츠</th></tr>`;
                 arr.forEach(p => {
                     h += `<tr><td style="font-weight:bold;">${p.name}</td><td>${p.AR}</td><td>${p.AC}</td><td>${p.ACF}</td><td>${p.P}</td><td>${p.PF}</td><td style="color:var(--primary);font-weight:bold;">${p.TD}</td><td style="color:var(--primary);font-weight:bold;">${p.xP}</td><td>${p.F}</td><td>${p.C}</td><td style="color:var(--blue-team);font-weight:bold;">${p.I}</td><td>${p.Bz}</td></tr>`;
                 });
@@ -1498,96 +1516,101 @@
             };
 
             let mvpHtml = '<div style="display:flex; gap:15px; flex-wrap:wrap;">';
-            if(mvpLogs.length === 0) mvpHtml = '<p style="color:#999; font-size:14px;">선정된 BEST PLAYER가 없습니다.</p>';
+            if(mvpLogs.length === 0) mvpHtml = '<p style="color:#999; font-size:14px; margin-left:15px;">선정된 BEST PLAYER가 없습니다.</p>';
             else {
                 mvpLogs.forEach(m => {
-                    let cmt = (rev.mvpComments && rev.mvpComments[m.id]) ? rev.mvpComments[m.id] : '등록된 코멘트가 없습니다.';
-                    mvpHtml += `<div style="flex:1; min-width:200px; background:#fdfdfd; padding:15px; border-radius:8px; border:1px solid #eee; box-shadow:0 2px 5px rgba(0,0,0,0.02);">
-                                    <div style="font-weight:900; color:var(--primary); font-size:15px; margin-bottom:8px;">🏆 ${m.name} (${m.team})</div>
+                    let cmt = (rev.mvpComments && rev.mvpComments[m.id]) ? rev.mvpComments[m.id] : '';
+                    mvpHtml += `<div style="flex:1; min-width:250px; background:#fdfdfd; padding:15px; border-radius:8px; border:1px solid #eee; box-shadow:0 2px 5px rgba(0,0,0,0.02);">
+                                    <div style="font-weight:900; color:var(--primary); font-size:15px; margin-bottom:8px;">🏆 ${m.name} <span style="font-size:13px; color:#555;">(${m.team})</span></div>
                                     <div style="color:#555; font-size:13px; line-height:1.6;">${cmt}</div>
                                 </div>`;
                 });
                 mvpHtml += '</div>';
             }
 
-            let w1 = rev.team1Writer ? `<span style="font-size:11px; color:#999; font-weight:normal; margin-left:8px;">작성: ${rev.team1Writer}</span>` : '';
-            let w2 = rev.team2Writer ? `<span style="font-size:11px; color:#999; font-weight:normal; margin-left:8px;">작성: ${rev.team2Writer}</span>` : '';
-
-            let t1Html = rev.team1Cmt ? `<p style="color:#444; line-height:1.6; font-size:14px; margin-bottom:0; white-space:pre-wrap;">${rev.team1Cmt}</p>` : `<p style="color:#999; font-size:13px; margin-bottom:0;">등록된 코멘트가 없습니다.</p>`;
-            let t2Html = rev.team2Cmt ? `<p style="color:#444; line-height:1.6; font-size:14px; margin-bottom:0; white-space:pre-wrap;">${rev.team2Cmt}</p>` : `<p style="color:#999; font-size:13px; margin-bottom:0;">등록된 코멘트가 없습니다.</p>`;
+            const getCmtHtml = (w, c) => c ? `<div style="margin-bottom:8px; line-height:1.5;"><strong style="font-size:13px;">${w||'익명'}:</strong> <span style="font-size:13px; color:#444;">${c}</span></div>` : '';
+            let t1Html = getCmtHtml(rev.t1w1, rev.t1c1) + getCmtHtml(rev.t1w2, rev.t1c2);
+            if(!t1Html) t1Html = `<p style="color:#999; font-size:13px; margin:0;">등록된 코멘트가 없습니다.</p>`;
+            let t2Html = getCmtHtml(rev.t2w1, rev.t2c1) + getCmtHtml(rev.t2w2, rev.t2c2);
+            if(!t2Html) t2Html = `<p style="color:#999; font-size:13px; margin:0;">등록된 코멘트가 없습니다.</p>`;
 
             paper.innerHTML = `
                 <div class="report-title-sec">
-                    <h1 style="margin:0; color:var(--primary); font-size:28px; font-weight:900;">PYO MATCH DAY REVIEW</h1>
-                    <div style="color:#666; font-weight:bold; margin-top:5px; font-size:14px;">${sch.date} | ${md}</div>
+                    <h1 style="margin:0; color:var(--primary); font-size:26px; font-weight:900; letter-spacing:1px;">PFL MATCH DAY REVIEW</h1>
+                    <div style="color:#666; font-weight:bold; margin-top:8px; font-size:14px;">${sch.date} | ${md}</div>
                 </div>
                 
-                <div class="report-score-sec">
-                    <div style="flex:1; text-align:right; color:${getTeamColor(sch.team1)};">${sch.team1}</div>
-                    <div class="score-box-review">${st1.pts} : ${st2.pts}</div>
-                    <div style="flex:1; text-align:left; color:${getTeamColor(sch.team2)};">${sch.team2}</div>
-                </div>
+                <div class="review-split-layout">
+                    <!-- 왼쪽단 (점수 및 VS표) -->
+                    <div class="review-left-col">
+                        <div class="report-score-sec">
+                            <div style="flex:1; text-align:right; color:var(--text-dark);">${sch.team1}</div>
+                            <div class="score-box-review">${st1.pts} : ${st2.pts}</div>
+                            <div style="flex:1; text-align:left; color:var(--text-dark);">${sch.team2}</div>
+                        </div>
 
-                <div style="overflow-x:auto;">
-                <table class="vs-table" style="min-width:300px;">
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.offDown}</td><td>공격 다운</td><td style="color:${getTeamColor(sch.team2)};">${st2.offDown}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${defDown1}</td><td>수비 다운</td><td style="color:${getTeamColor(sch.team2)};">${defDown2}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.advance}</td><td>전진 성공</td><td style="color:${getTeamColor(sch.team2)};">${st2.advance}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${advR1}</td><td>전진 성공률</td><td style="color:${getTeamColor(sch.team2)};">${advR2}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.run}</td><td>러닝 성공</td><td style="color:${getTeamColor(sch.team2)};">${st2.run}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${pAtt1}</td><td>패스 시도</td><td style="color:${getTeamColor(sch.team2)};">${pAtt2}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.pass}</td><td>패스 성공</td><td style="color:${getTeamColor(sch.team2)};">${st2.pass}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${pR1}</td><td>패스 성공률</td><td style="color:${getTeamColor(sch.team2)};">${pR2}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.defSucc}</td><td>수비 성공</td><td style="color:${getTeamColor(sch.team2)};">${st2.defSucc}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${defR1}</td><td>수비 성공률</td><td style="color:${getTeamColor(sch.team2)};">${defR2}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.td}</td><td>터치다운</td><td style="color:${getTeamColor(sch.team2)};">${st2.td}</td></tr>
-                    <tr><td style="color:${getTeamColor(sch.team1)};">${st1.xp}</td><td>추가 점수</td><td style="color:${getTeamColor(sch.team2)};">${st2.xp}</td></tr>
-                </table>
-                </div>
+                        <div style="overflow-x:auto;">
+                        <table class="vs-table">
+                            <tr><td>${st1.offDown}</td><td>공격 다운</td><td>${st2.offDown}</td></tr>
+                            <tr><td>${defDown1}</td><td>수비 다운</td><td>${defDown2}</td></tr>
+                            <tr><td>${st1.advance}</td><td>전진 성공</td><td>${st2.advance}</td></tr>
+                            <tr><td>${advR1}</td><td>전진 성공률</td><td>${advR2}</td></tr>
+                            <tr><td>${st1.run}</td><td>러닝 성공</td><td>${st2.run}</td></tr>
+                            <tr><td>${pAtt1}</td><td>패스 시도</td><td>${pAtt2}</td></tr>
+                            <tr><td>${st1.pass}</td><td>패스 성공</td><td>${st2.pass}</td></tr>
+                            <tr><td>${pR1}</td><td>패스 성공률</td><td>${pR2}</td></tr>
+                            <tr><td>${st1.defSucc}</td><td>수비 성공</td><td>${st2.defSucc}</td></tr>
+                            <tr><td>${defR1}</td><td>수비 성공률</td><td>${defR2}</td></tr>
+                            <tr><td>${st1.td}</td><td>터치다운</td><td>${st2.td}</td></tr>
+                            <tr><td>${st1.xp}</td><td>추가 점수</td><td>${st2.xp}</td></tr>
+                        </table>
+                        </div>
+                    </div>
 
-                <div style="margin-bottom:25px; border-top:2px solid #eee; padding-top:15px;">
-                    <h3 style="margin-top:0; font-size:16px;">👥 참가 선수 명단</h3>
-                    <div style="display:flex; gap:20px; font-size:14px; color:#444; flex-wrap:wrap;">
-                        <div style="flex:1; min-width:200px;"><b>${sch.team1}</b> : ${r1}</div>
-                        <div style="flex:1; min-width:200px;"><b>${sch.team2}</b> : ${r2}</div>
+                    <!-- 오른쪽단 (명단 및 개인기록) -->
+                    <div class="review-right-col">
+                        <h3 style="margin-top:0; font-size:15px; border-bottom:2px solid #eee; padding-bottom:8px;">👥 참가 선수 명단</h3>
+                        <div style="display:flex; gap:20px; font-size:12px; color:#555; flex-wrap:wrap; margin-bottom:25px;">
+                            <div style="flex:1; min-width:180px;"><b>${sch.team1}</b> : ${r1}</div>
+                            <div style="flex:1; min-width:180px;"><b>${sch.team2}</b> : ${r2}</div>
+                        </div>
+
+                        <h3 style="margin-top:0; font-size:15px; border-bottom:2px solid #eee; padding-bottom:8px; margin-bottom:5px;">📊 개인별 경기 기록</h3>
+                        ${genIndTable(pArr1, sch.team1)}
+                        ${genIndTable(pArr2, sch.team2)}
                     </div>
                 </div>
 
-                <div style="margin-bottom:25px; border-top:2px solid #eee; padding-top:15px;">
-                    <h3 style="margin-top:0; font-size:16px; margin-bottom:5px;">📊 개인별 경기 기록</h3>
-                    ${genIndTable(pArr1, sch.team1)}
-                    ${genIndTable(pArr2, sch.team2)}
-                </div>
-
-                <div style="margin-bottom:25px; border-top:2px solid #eee; padding-top:15px;">
-                    <h3 style="margin-top:0; color:#d35400; font-size:16px;">⭐ 베스트 플레이어</h3>
+                <!-- 하단부 -->
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #ddd;">
+                    <h3 style="margin-top:0; color:#f39c12; font-size:16px;">⭐ 베스트 플레이어</h3>
                     ${mvpHtml}
                 </div>
 
-                <div style="margin-bottom:25px; border-top:2px solid #eee; padding-top:15px;">
-                    <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트</h3>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #ddd;">
+                    <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트 (학생)</h3>
                     <div class="review-team-split">
                         <div style="flex:1;">
-                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; text-align:center;">[ ${sch.team1} ]${w1}</h4>
+                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; font-size:14px;">[ ${sch.team1} ]</h4>
                             ${t1Html}
                         </div>
                         <div style="width:2px; background:#ddd;"></div>
                         <div style="flex:1;">
-                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team2)}; text-align:center;">[ ${sch.team2} ]${w2}</h4>
+                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team2)}; font-size:14px;">[ ${sch.team2} ]</h4>
                             ${t2Html}
                         </div>
                     </div>
                 </div>
 
-                <div style="margin-bottom:20px; border-top:2px solid var(--text-dark); padding-top:15px;">
-                    <h3 style="margin-top:0; color:var(--text-dark); font-size:18px;">👨‍🏫 표쌤의 경기 코멘트</h3>
-                    <p style="line-height:1.8; font-size:14px; color:#333; white-space:pre-wrap; font-weight:bold; background:#efebe9; padding:15px; border-radius:8px;">${rev.teacher || '등록된 코멘트가 없습니다.'}</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:2px solid var(--text-dark);">
+                    <h3 style="margin-top:0; color:var(--text-dark); font-size:16px;">👨‍🏫 표쌤의 경기 코멘트</h3>
+                    <p style="line-height:1.8; font-size:14px; color:#333; white-space:pre-wrap; font-weight:bold; padding:0 10px;">${rev.teacher || '등록된 코멘트가 없습니다.'}</p>
                 </div>
             `;
             paper.style.display = 'block';
         }
 
-        // --- 리포트 탭 (v2.09 비율 기반 방사형 차트 + 득점 창출 꺾은선 차트) ---
+        // --- 리포트 탭 ---
         function populateReportSelect() {
             const sel = document.getElementById('report-player-select'); sel.innerHTML = '<option value="">선수 선택</option>';
             getRoster().forEach(p => sel.innerHTML += `<option value="${p.id}|${p.name}|${p.team}">[${p.team}] ${p.name}</option>`);
@@ -1625,7 +1648,7 @@
             document.getElementById('rep-flag').innerText = f + '회'; document.getElementById('rep-cut').innerText = cut + '회';
             document.getElementById('rep-int').innerText = int + '회'; document.getElementById('rep-def').innerText = (f+cut+int) + '회';
 
-            // v2.09: 비율 기반 방사형 점수 로직
+            // v2.09 비율 기반 방사형 점수 로직
             let run_pts = run * 3;
             let catch_pts = c * 3;
             let pass_pts = p * 5;
@@ -1653,17 +1676,17 @@
                 options: { scales: { r: { min: 0, max: 100, ticks: {display: false} } } }
             });
 
-            let cmt = "팀의 보배 같은 선수입니다.";
-            if(total_pts === 0) cmt = "아직 출전 기록이 부족합니다. 다음 경기를 기대해 봅니다!";
+            let cmt1 = "팀의 보배 같은 선수입니다.";
+            if(total_pts === 0) cmt1 = "아직 출전 기록이 부족합니다. 다음 경기를 기대해 봅니다!";
             else {
                 let maxPct = Math.max(r_pct, c_pct, p_pct, d_pct, s_pct);
-                if(maxPct === r_pct) cmt = `전체 능력의 ${r_pct.toFixed(0)}%를 러닝에 쏟아붓는 뛰어난 러닝 머신입니다!`;
-                else if(maxPct === c_pct) cmt = `안정적인 캐치 능력이 돋보입니다. 팀 공격의 ${c_pct.toFixed(0)}%를 리시버로서 책임지고 있습니다!`;
-                else if(maxPct === p_pct) cmt = `경기의 흐름을 주도하는 쿼터백 성향(${p_pct.toFixed(0)}%)이 짙은 뛰어난 패서입니다!`;
-                else if(maxPct === d_pct) cmt = `수비 비중이 ${d_pct.toFixed(0)}%에 달하는 통곡의 벽, 수비의 핵심 멤버입니다!`;
-                else if(maxPct === s_pct) cmt = `찬스를 놓치지 않는 최고의 피니셔! 능력의 ${s_pct.toFixed(0)}%가 득점과 직결됩니다!`;
+                if(maxPct === r_pct) cmt1 = `전체 능력의 ${r_pct.toFixed(0)}%를 러닝에 쏟아붓는 뛰어난 러닝 머신입니다!`;
+                else if(maxPct === c_pct) cmt1 = `안정적인 캐치 능력이 돋보입니다. 팀 공격의 ${c_pct.toFixed(0)}%를 리시버로서 책임지고 있습니다!`;
+                else if(maxPct === p_pct) cmt1 = `경기의 흐름을 주도하는 쿼터백 성향(${p_pct.toFixed(0)}%)이 짙은 뛰어난 패서입니다!`;
+                else if(maxPct === d_pct) cmt1 = `수비 비중이 ${d_pct.toFixed(0)}%에 달하는 통곡의 벽, 수비의 핵심 멤버입니다!`;
+                else if(maxPct === s_pct) cmt1 = `찬스를 놓치지 않는 최고의 피니셔! 능력의 ${s_pct.toFixed(0)}%가 득점과 직결됩니다!`;
             }
-            document.getElementById('report-p-comment').innerText = cmt;
+            document.getElementById('report-p-comment').innerText = cmt1;
 
             let matchDays = [...new Set(pLog.map(l => l.matchDay))];
             matchDays.sort((a,b) => {
@@ -1673,11 +1696,12 @@
             });
             
             let offData = []; let defData = []; let scoreData = [];
-            matchDays.forEach(md => {
+            let lastTrend = 0; let curTrend = 0;
+            
+            matchDays.forEach((md, idx) => {
                 let mdLogs = pLog.filter(l => l.matchDay === md);
                 let offPts = 0; let defPts = 0; let sPts = 0;
                 mdLogs.forEach(l => {
-                    // v2.09: 득점은 독립된 선으로 분리, 공격에서는 제외
                     if(l.action === 'TD') sPts += 5;
                     if(l.action === 'xP') sPts += 1;
                     if(l.action === 'AR' || l.action === 'AC' || l.action === 'P') offPts += 1;
@@ -1685,7 +1709,18 @@
                     if(l.action === 'I') defPts += 2; 
                 });
                 offData.push(offPts); defData.push(defPts); scoreData.push(sPts);
+                
+                if (idx === matchDays.length - 2) lastTrend = offPts + defPts + sPts;
+                if (idx === matchDays.length - 1) curTrend = offPts + defPts + sPts;
             });
+            
+            let cmt2 = "꾸준한 활약으로 팀의 중심을 잡아주고 있습니다.";
+            if (matchDays.length >= 2) {
+                if (curTrend > lastTrend + 2) cmt2 = "최근 경기에서 팀 기여도가 상승 곡선을 그리고 있습니다. 폼이 아주 좋습니다!";
+                else if (curTrend < lastTrend - 2) cmt2 = "최근 상대 견제를 많이 받거나 페이스가 조금 떨어졌습니다. 다음 경기 반등을 기대합니다!";
+            }
+            if(total_pts === 0) cmt2 = "경기 데이터가 축적되면 성장 추이를 분석해 드립니다.";
+            document.getElementById('report-p-comment-2').innerText = cmt2;
 
             const ctxLine = document.getElementById('playerLineChart').getContext('2d');
             if(lineChartInstance) lineChartInstance.destroy();
@@ -1728,11 +1763,18 @@
 
             let pStats = {};
             getLogs().filter(l => l.team === team).forEach(l => {
-                if(!pStats[l.id]) pStats[l.id] = {name: l.name, run:0, pass:0, pAtt:0, catch:0, td:0, xp:0, def:0};
-                let ps = pStats[l.id];
+                let pid = l.id;
+                if(!pStats[pid]) {
+                    let playerInfo = getRoster().find(x=>x.id===pid);
+                    pStats[pid] = {name: l.name, run:0, pass:0, pAtt:0, catch:0, cAtt:0, td:0, xp:0, f:0, c:0, i:0, bz:0, mvp:0, def:0, isCap: playerInfo ? playerInfo.isCaptain : false};
+                }
+                let ps = pStats[pid];
                 if(l.action==='AR') ps.run++; if(l.action==='P') {ps.pass++; ps.pAtt++;} if(l.action==='PF') ps.pAtt++;
-                if(l.action==='AC') ps.catch++; if(l.action==='TD') ps.td++; if(l.action==='xP') ps.xp++;
+                if(l.action==='AC') {ps.catch++; ps.cAtt++;} if(l.action==='ACF') ps.cAtt++;
+                if(l.action==='TD') ps.td++; if(l.action==='xP') ps.xp++;
+                if(l.action==='F') ps.f++; if(l.action==='C') ps.c++; if(l.action==='I') ps.i++; if(l.action==='Bz') ps.bz++;
                 if(['F','C','I'].includes(l.action)) ps.def++;
+                if(l.action==='BEST') ps.mvp++;
             });
             const pArr = Object.values(pStats);
             const getT2 = (sortFn) => pArr.sort(sortFn).slice(0,2);
@@ -1753,22 +1795,28 @@
                 <li>경기당 평균 <b>${avgGf}점</b>을 득점하고, <b>${avgGa}점</b>을 실점하고 있습니다.</li>
             `;
 
-            const genTopHtml = (title, arr, vFn) => {
+            const genTopHtml = (title, arr, vFn, subFn=null) => {
                 let h = `<div style="background:#fff; border:1px solid #ddd; border-radius:8px; overflow:hidden;">
                     <div style="background:#f4f6f6; font-weight:bold; padding:8px; text-align:center; border-bottom:1px solid #ddd;">${title}</div>
                     <table style="width:100%; text-align:center; font-size:13px; border-collapse:collapse;">`;
-                arr.forEach((p, i) => { h += `<tr><td style="padding:6px; border-bottom:1px solid #eee; width:20px;">${i+1}위</td><td style="padding:6px; border-bottom:1px solid #eee;">${p.name}</td><td style="padding:6px; border-bottom:1px solid #eee; font-weight:bold;">${vFn(p)}</td></tr>`; });
+                arr.forEach((p, i) => { 
+                    let sub = subFn ? `<br><span style="font-size:10px; color:#888; font-weight:normal;">${subFn(p)}</span>` : '';
+                    h += `<tr><td style="padding:6px; border-bottom:1px solid #eee; width:40px; white-space:nowrap;">${i+1}위</td><td style="padding:6px; border-bottom:1px solid #eee;"><b>${p.name}</b>${sub}</td><td style="padding:6px; border-bottom:1px solid #eee; font-weight:bold;">${vFn(p)}</td></tr>`; 
+                });
                 if(arr.length===0) h += `<tr><td colspan="3" style="padding:10px; color:#aaa;">데이터 없음</td></tr>`;
                 return h + `</table></div>`;
             };
 
             const tRun = getT2((a,b)=>b.run-a.run); const tPass = getT2((a,b)=>b.pass-a.pass);
             const tCatch = getT2((a,b)=>b.catch-a.catch); const tPts = getT2((a,b)=>(b.td*6+b.xp)-(a.td*6+a.xp));
-            const tDef = getT2((a,b)=>b.def-a.def);
+            const tDef = getT2((a,b)=>b.def-a.def); const tFlag = getT2((a,b)=>b.f-a.f);
 
             document.getElementById('team-rep-tops').innerHTML = 
-                genTopHtml('🏃 러닝 성공', tRun, p=>p.run+'회') + genTopHtml('🎯 패스 성공', tPass, p=>p.pass+'회') +
-                genTopHtml('👐 캐치 성공', tCatch, p=>p.catch+'회') + genTopHtml('🛡️ 수비 성공', tDef, p=>p.def+'회') +
+                genTopHtml('🏃 러닝 성공', tRun, p=>p.run+'회') + 
+                genTopHtml('🎯 패스 성공', tPass, p=>p.pass+'회', p=>p.pAtt>0?((p.pass/p.pAtt)*100).toFixed(1)+'%':'0%') +
+                genTopHtml('👐 캐치 성공', tCatch, p=>p.catch+'회', p=>p.cAtt>0?((p.catch/p.cAtt)*100).toFixed(1)+'%':'0%') + 
+                genTopHtml('🛡️ 수비 성공', tDef, p=>p.def+'회') +
+                genTopHtml('🚩 플래그 수비', tFlag, p=>p.f+'회') +
                 genTopHtml('🔥 총 득점', tPts, p=>(p.td*6+p.xp)+'점');
 
             let aiCmt = "";
@@ -1791,12 +1839,58 @@
                     aiCmt += `<li>수비할 때 플래그를 아주 안정적으로 잘 뽑아냅니다. 여기에 상대 패스를 눈치채고 공을 쳐내는 훈련을 더하면 완벽한 철벽 수비가 될 것입니다.</li>`;
                 }
             }
-
             if(tPts.length > 0 && tPts[0].td > 0) {
                 aiCmt += `<li>팀 내에서 득점을 가장 많이 하는 <b>${tPts[0].name}</b> 선수가 상대 수비수들의 집중 공격을 받을 확률이 높습니다. 다른 친구들을 활용하는 속임수 전술도 필요합니다.</li>`;
             }
-            
             document.getElementById('team-rep-ai').innerHTML = aiCmt || "<li>충분한 데이터가 모이면 AI 분석이 제공됩니다.</li>";
+
+            // v2.09: AI 전력 분석 밑 개인기록 카드 (캡처 화면 참고)
+            let pCardsHtml = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:15px; margin-top:20px;">';
+            pArr.forEach(p => {
+                let cBadge = p.isCap ? `<span style="background:var(--red-team); color:white; padding:1px 6px; border-radius:4px; margin-left:6px; font-size:12px;">C</span>` : '';
+                let cRt = p.cAtt > 0 ? ((p.catch/p.cAtt)*100).toFixed(1)+'%' : '0%';
+                let pRt = p.pAtt > 0 ? ((p.pass/p.pAtt)*100).toFixed(1)+'%' : '0%';
+                
+                pCardsHtml += `
+                <div class="player-card">
+                    <div class="player-card-header">
+                        <div class="player-card-team" style="color:${getTeamColor(team)};">${team}</div>
+                        <div class="player-card-pos">PLAYER</div>
+                    </div>
+                    <div class="player-card-name">${p.name}${cBadge}</div>
+                    <div class="player-card-grid">
+                        <div class="player-card-col">
+                            <div class="player-card-row"><div>BEST</div><div>${p.mvp}회</div></div>
+                            <div class="player-card-row"><div>러닝성공</div><div>${p.run}회</div></div>
+                            <div class="player-card-row"><div>캐치성공</div><div>${p.catch}회</div></div>
+                            <div class="player-card-row"><div>캐치성공률</div><div>${cRt}</div></div>
+                            <div class="player-card-row"><div>패스성공</div><div>${p.pass}회</div></div>
+                            <div class="player-card-row"><div>패스성공률</div><div>${pRt}</div></div>
+                            <div class="player-card-row" style="border:none;"><div>블리츠</div><div>${p.bz}회</div></div>
+                        </div>
+                        <div class="player-card-col">
+                            <div class="player-card-row"><div>터치다운</div><div>${p.td}회</div></div>
+                            <div class="player-card-row"><div>엑스트라포인트</div><div>${p.xp}회</div></div>
+                            <div class="player-card-row"><div>총득점</div><div style="font-weight:bold; color:var(--primary);">${p.td*6 + p.xp}점</div></div>
+                            <div class="player-card-row"><div>플래그 수비</div><div>${p.f}회</div></div>
+                            <div class="player-card-row"><div>커트 수비</div><div>${p.c}회</div></div>
+                            <div class="player-card-row"><div>인터셉트</div><div>${p.i}회</div></div>
+                            <div class="player-card-row" style="border:none;"><div>수비성공</div><div style="font-weight:bold; color:var(--text-dark);">${p.def}회</div></div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            pCardsHtml += '</div>';
+            
+            const repCardsDiv = document.getElementById('team-rep-cards');
+            if(!repCardsDiv) {
+                const newDiv = document.createElement('div');
+                newDiv.id = 'team-rep-cards';
+                newDiv.innerHTML = pCardsHtml;
+                document.getElementById('team-report-result').appendChild(newDiv);
+            } else {
+                repCardsDiv.innerHTML = pCardsHtml;
+            }
         }
 
         function downloadExcelBackup() {
@@ -1829,10 +1923,10 @@
                 reviewArr.push({ 
                     '매치데이_키': key, 
                     '표쌤의_경기코멘트': r.teacher || '', 
-                    '팀1_작성자': r.team1Writer || '',
-                    '팀1_코멘트': r.team1Cmt || '', 
-                    '팀2_작성자': r.team2Writer || '',
-                    '팀2_코멘트': r.team2Cmt || '', 
+                    '팀1_작성자': r.t1w1 || '',
+                    '팀1_코멘트': r.t1c1 || '', 
+                    '팀2_작성자': r.t2w1 || '',
+                    '팀2_코멘트': r.t2c1 || '', 
                     '베스트플레이어_코멘트': mvpStr 
                 });
             }
