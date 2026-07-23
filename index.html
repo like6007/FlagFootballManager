@@ -53,8 +53,6 @@
         .game-controls-wrapper { display: flex; flex-direction: column; gap: 10px; background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #eee; }
         .game-row-1 { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
         .game-row-2 { display: flex; gap: 10px; justify-content: center; align-items: center; background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.03); flex-wrap: wrap;}
-        
-        /* 기록 탭 다운 제어판 왼쪽 정렬 */
         .game-row-3 { display: flex; gap: 10px; justify-content: flex-start; align-items: center; margin-top: 5px; flex-wrap: wrap; padding-left:5px;}
 
         .state-btn { padding: 8px 15px; border: none; background: white; border-radius: 6px; font-weight: bold; font-size:13px; cursor: pointer; color: #555; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: 0.2s;}
@@ -107,13 +105,8 @@
 
         .review-block { background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
         
-        /* 리포트 탭: 방사형 & 꺾은선 1:1 배치 */
-        .report-grid-top { display: grid; grid-template-columns: 280px 1fr; gap: 15px; margin-bottom: 15px; }
-        .report-right-col { display: flex; flex-direction: column; justify-content:center; }
-        
         .csv-input { display: none; }
 
-        /* 개인 기록 표 너비 및 디자인 강제 고정 */
         .report-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; background: white; border: 2px solid var(--text-dark); table-layout: fixed; min-width: 800px;}
         .report-table th { border: 1px solid #eee; padding: 10px 4px; background: #efebe9; font-weight: 800; color:var(--text-dark); white-space: nowrap;}
         .report-table td { border: 1px solid #eee; padding: 10px 4px; font-weight:600; color:#444; white-space: nowrap;}
@@ -137,19 +130,6 @@
         .vs-table td:first-child { text-align: center; font-weight: bold; width: 30%; color: #333; }
         .vs-table td:nth-child(2) { font-size: 11px; color: #888; background: #fdfdfd; width: 40%; font-weight:bold; }
         .vs-table td:last-child { text-align: center; font-weight: bold; width: 30%; color: #333; }
-        
-        /* AI 팀 분석 선수 카드 디자인 */
-        .player-card { border:2px solid var(--text-dark); background:white; overflow:hidden; border-radius:8px;}
-        .player-card-header { background:white; border-bottom:2px solid var(--text-dark); display:flex; }
-        .player-card-team { flex:1; font-weight:bold; padding:5px; text-align:center; border-right:1px solid var(--text-dark); }
-        .player-card-pos { flex:1; text-align:center; padding:5px; font-size:12px; color:#555;}
-        .player-card-name { text-align:center; padding:8px; font-size:18px; font-weight:900; border-bottom:2px solid var(--text-dark); display:flex; justify-content:center; align-items:center;}
-        .player-card-grid { display:flex; font-size:11px; text-align:center; }
-        .player-card-col { flex:1; }
-        .player-card-col:first-child { border-right:2px solid var(--text-dark); }
-        .player-card-row { display:flex; border-bottom:1px solid #ddd; }
-        .player-card-row div { flex:1; padding:4px 2px; display:flex; justify-content:center; align-items:center; flex-direction:column;}
-        .player-card-row div:first-child { font-weight:bold; border-right:1px solid #ddd; background:#fcfcfc; flex-direction:row;}
 
         .review-team-split { display: flex; gap: 20px; background: #f4f6f6; padding: 15px; border-radius: 8px; }
 
@@ -159,7 +139,6 @@
             .logo-text { font-size: 14px; }
             .nav-btn { font-size: 13px; padding: 0 8px; height: 35px; }
             
-            .report-grid-top { grid-template-columns: 1fr; }
             .review-left-col { border-right: none; padding-right: 0; border-bottom: 1px dashed #ddd; padding-bottom: 20px; }
             .review-right-col { min-width: 100%; }
             
@@ -182,11 +161,10 @@
         <div class="header-top">
             <div class="logo-container" onclick="switchTab('home')">
                 <img src="PFL.jpg" alt="PFL Logo" class="main-logo-img" onerror="this.src='https://via.placeholder.com/45/a0522d/ffffff?text=PFL'">
-                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator" style="background:#e8f5e9; color:#2e7d32;">v2.12 ☁️</span></div>
+                <div class="logo-text">FlagFootball Manager <span class="version-badge" id="cloud-indicator" style="background:#e8f5e9; color:#2e7d32;">v2.13 ☁️</span></div>
             </div>
             <div class="season-selector"><select id="season-select" onchange="changeSeason()"></select></div>
         </div>
-        <!-- 탭 순서 변경 반영 -->
         <div class="nav-menu">
             <button class="nav-btn active" onclick="switchTab('home')">홈</button>
             <button class="nav-btn" onclick="switchTab('team')">팀</button>
@@ -253,7 +231,6 @@
                         <button class="btn-green" style="background:#bdc3c7; width:auto; padding:6px 12px; margin:0;" onclick="downloadScheduleTemplate()">양식 다운로드</button>
                         <input type="file" id="csv-schedule" class="csv-input" accept=".csv" onchange="handleScheduleCSV(event)">
                         <button class="btn-green" id="btn-csv-schedule" style="width: auto; padding: 6px 12px; margin:0;" onclick="document.getElementById('csv-schedule').click()">CSV 업로드</button>
-                        <!-- 일정 잠금 버튼 추가 -->
                         <button class="btn-green" id="btn-lock-schedule" style="background:var(--text-dark); width:auto; padding:6px 12px; margin:0;" onclick="toggleScheduleLock()">일정 잠금</button>
                     </div>
                 </div>
@@ -315,7 +292,6 @@
                             <span style="color:#3498db; font-weight:900; font-size:14px;">🛡️ 수비</span>
                         </div>
 
-                        <!-- 다운 패널 왼쪽 정렬 적용 -->
                         <div class="game-row-3">
                             <div style="display:flex; gap:4px;">
                                 <button class="state-btn half-btn active" onclick="setHalf('전반전')">전반전</button>
@@ -405,7 +381,6 @@
                 <button class="sub-tab-btn" onclick="switchReportSubTab('team')" id="tab-btn-rep-team">🛡️ 팀 리포트</button>
             </div>
 
-            <!-- 개인 리포트 -->
             <div id="report-ind-container" class="card" style="display:block;">
                 <div class="card-header">스카우팅 리포트 (시각화 분석)</div>
                 <div class="sch-input-bar">
@@ -413,44 +388,10 @@
                     <button class="btn-primary" onclick="drawPlayerReport()">분석하기</button>
                 </div>
                 <div id="report-result-area" style="display:none;">
-                    
-                    <div class="report-grid-top">
-                        <div class="review-block" style="display:flex; flex-direction:column; justify-content:center; align-items:center; margin-bottom:0;">
-                            <h3 id="report-p-name" style="color:var(--primary); margin-top:0; font-size:22px;"></h3>
-                            <div id="report-p-team" style="color:white; padding:4px 12px; border-radius:12px; font-weight:bold; margin-top:-8px; font-size:13px;"></div>
-                            <canvas id="playerRadarChart" width="240" height="240"></canvas>
-                        </div>
-                        
-                        <div class="report-right-col">
-                            <div class="review-block" style="display:flex; flex-direction:column; justify-content:center; margin-bottom:0;">
-                                <h4 style="margin-top:0; color:var(--text-dark); font-size:15px; text-align:center;">📈 경기별 활약 추이</h4>
-                                <div style="width:100%; height:200px;">
-                                    <canvas id="playerLineChart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="review-block" style="background:white; padding:0; border:none; overflow-x:auto; margin-bottom:15px;">
-                        <table class="report-table" style="min-width:100%; font-size:12px;">
-                            <tr><th>BEST</th><td id="rep-best">0회</td><th>터치다운</th><td id="rep-td">0회</td></tr>
-                            <tr><th>러닝성공</th><td id="rep-run">0회</td><th>추가점수(xP)</th><td id="rep-xp">0회</td></tr>
-                            <tr><th>캐치성공</th><td id="rep-catch">0회</td><th>총득점</th><td id="rep-pts" style="font-weight:bold; color:var(--primary);">0점</td></tr>
-                            <tr><th>캐치성공률</th><td id="rep-catch-rt">0%</td><th>플래그 수비</th><td id="rep-flag">0회</td></tr>
-                            <tr><th>패스성공</th><td id="rep-pass">0회</td><th>커트 수비</th><td id="rep-cut">0회</td></tr>
-                            <tr><th>패스성공률</th><td id="rep-pass-rt">0%</td><th>인터셉트</th><td id="rep-int">0회</td></tr>
-                            <tr><th>블리츠</th><td id="rep-blitz">0회</td><th>수비성공</th><td id="rep-def" style="font-weight:bold; color:var(--red-team);">0회</td></tr>
-                        </table>
-                    </div>
-                    
-                    <div style="width:100%; display:flex; flex-direction:column; gap:10px;">
-                        <div style="background:#fff; padding:15px; border-left:4px solid var(--primary); border-radius:4px; font-weight:bold; font-size:13px; line-height:1.6;" id="report-p-comment"></div>
-                        <div style="background:#f4f6f6; padding:15px; border-left:4px solid var(--text-dark); border-radius:4px; font-weight:bold; font-size:13px; line-height:1.6;" id="report-p-comment-2"></div>
-                    </div>
+                    <!-- JS에서 동적으로 2단 레이아웃을 생성합니다 -->
                 </div>
             </div>
 
-            <!-- 팀 리포트 -->
             <div id="report-team-container" class="card" style="display:none;">
                 <div class="card-header">The Team Report</div>
                 <div class="sch-input-bar">
@@ -463,7 +404,7 @@
                         <ul style="line-height:1.6; font-size:13px; color:#444;" id="team-rep-brief"></ul>
                     </div>
                     <h3 style="margin-top:20px; margin-bottom:10px; color:var(--text-dark); font-size:15px;">🏆 팀 내 부문별 TOP 2</h3>
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px;" id="team-rep-tops"></div>
+                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:10px;" id="team-rep-tops"></div>
                     <div class="review-block" style="margin-top:20px; background:#efebe9; border-left:5px solid var(--primary);">
                         <h3 style="margin-top:0; color:var(--text-dark); font-size:15px;">🤖 AI 심층 전력 분석</h3>
                         <ul style="line-height:1.8; font-size:13px; color:#444; margin-bottom:0;" id="team-rep-ai"></ul>
@@ -534,7 +475,6 @@
     </div>
 
     <script>
-        // 전역 변수 및 Firebase 세팅 (중복 코드 완벽 제거)
         const firebaseConfig = {
             apiKey: "AIzaSyD3ji6vMLw_TK0QEm2R_RF2nd-XMQIEEeQ",
             authDomain: "pfl-ffm.firebaseapp.com",
@@ -558,7 +498,7 @@
             console.error("Firebase 초기화 에러:", error);
             const indicator = document.getElementById('cloud-indicator');
             if(indicator) {
-                indicator.innerText = 'v2.12 ⚠️오프라인';
+                indicator.innerText = 'v2.13 ⚠️오프라인';
                 indicator.style.background = '#ffebee';
                 indicator.style.color = '#c62828';
             }
@@ -704,7 +644,6 @@
             if(document.getElementById('home-season-text')) document.getElementById('home-season-text').innerText = currentSeason;
             if(document.getElementById('del-target-season')) document.getElementById('del-target-season').innerText = currentSeason;
             
-            // v2.12 에러 방지: DB저장 로직과 화면 그리기 분리
             initRosterTable(); 
             renderSchedule(); 
             populateTeamDropdowns(); 
@@ -766,7 +705,6 @@
             renderRosterPreview(); 
         }
 
-        // v2.12 입력 시마다 저장과 렌더링을 안전하게 분리
         function addRosterRow(id='', name='', team='') {
             const tr = document.createElement('tr');
             tr.innerHTML = `<td><input type="text" class="r-id" value="${id}" placeholder="번호" oninput="saveAndRenderRoster()"></td>
@@ -948,6 +886,7 @@
 
         function getTeamMatchStats(md) {
             let tStats = {};
+            
             getLogs().filter(l => l.matchDay === md).forEach(l => {
                 if(!tStats[l.team] && l.team !== '-') tStats[l.team] = { pts:0, offDown:0, xpDown:0, advance:0, defSucc:0, run:0, pass:0, pf:0, catch:0, td:0, xp:0, f:0, c:0, i:0, bz:0 };
                 
@@ -1421,7 +1360,6 @@
             }
         }
 
-        // --- 리뷰 탭 ---
         function populateReviewSelect() {
             const sel1 = document.getElementById('review-md-select'); if(sel1) sel1.innerHTML = '<option value="">매치데이 선택</option>';
             const sel2 = document.getElementById('review-view-md-select'); if(sel2) sel2.innerHTML = '<option value="">매치데이 선택</option>';
@@ -1620,15 +1558,15 @@
                 </div>
 
                 <div style="margin-top:20px; padding-top:20px; border-top:1px solid #ddd;">
-                    <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트 (학생 피드백)</h3>
+                    <h3 style="margin-top:0; font-size:16px;">🗣️ 경기 코멘트 (학생)</h3>
                     <div class="review-team-split">
                         <div style="flex:1;">
-                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; text-align:center;">[ ${sch.team1} ]</h4>
+                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team1)}; font-size:14px;">[ ${sch.team1} ]</h4>
                             ${t1Html}
                         </div>
                         <div style="width:2px; background:#ddd;"></div>
                         <div style="flex:1;">
-                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team2)}; text-align:center;">[ ${sch.team2} ]</h4>
+                            <h4 style="margin:0 0 10px 0; color:${getTeamColor(sch.team2)}; font-size:14px;">[ ${sch.team2} ]</h4>
                             ${t2Html}
                         </div>
                     </div>
@@ -1642,12 +1580,12 @@
             paper.style.display = 'block';
         }
 
-        // --- 리포트 탭 ---
         function populateReportSelect() {
             const sel = document.getElementById('report-player-select'); if(!sel) return;
             sel.innerHTML = '<option value="">선수 선택</option>';
             getRoster().forEach(p => sel.innerHTML += `<option value="${p.id}|${p.name}|${p.team}">[${p.team}] ${p.name}</option>`);
         }
+        
         function populateReportTeamSelect() {
             const sel = document.getElementById('report-team-select'); if(!sel) return;
             sel.innerHTML = '<option value="">팀 선택</option>';
@@ -1657,7 +1595,7 @@
         function drawPlayerReport() {
             const val = document.getElementById('report-player-select').value; if(!val) return;
             const [id, name, team] = val.split('|');
-            document.getElementById('report-result-area').style.display = 'grid';
+            document.getElementById('report-result-area').style.display = 'block';
             document.getElementById('report-p-name').innerText = name;
             document.getElementById('report-p-team').innerText = team;
             document.getElementById('report-p-team').style.background = getTeamColor(team);
@@ -1682,11 +1620,8 @@
             document.getElementById('rep-flag').innerText = f + '회'; document.getElementById('rep-cut').innerText = cut + '회';
             document.getElementById('rep-int').innerText = int + '회'; document.getElementById('rep-def').innerText = (f+cut+int) + '회';
 
-            let run_pts = run * 3;
-            let catch_pts = c * 3;
-            let pass_pts = p * 5;
-            let def_pts = (f + cut + int) * 3;
-            let score_pts = (td * 5) + (xp * 1);
+            let run_pts = run * 3; let catch_pts = c * 3; let pass_pts = p * 5;
+            let def_pts = (f + cut + int) * 3; let score_pts = (td * 5) + (xp * 1);
             let total_pts = run_pts + catch_pts + pass_pts + def_pts + score_pts;
 
             let r_pct = total_pts > 0 ? (run_pts / total_pts) * 100 : 0;
@@ -1749,8 +1684,8 @@
             
             let cmt2 = "꾸준한 활약으로 팀의 중심을 잡아주고 있습니다.";
             if (matchDays.length >= 2) {
-                if (curTrend > lastTrend + 2) cmt2 = "최근 경기에서 팀 기여도가 상승 곡선을 그리고 있습니다. 폼이 아주 좋습니다!";
-                else if (curTrend < lastTrend - 2) cmt2 = "최근 상대 견제를 많이 받거나 페이스가 조금 떨어졌습니다. 다음 경기 반등을 기대합니다!";
+                if (curTrend > lastTrend + 2) cmt2 = "최근 경기에서 기여도가 상승 곡선을 그리고 있습니다. 폼이 아주 좋습니다!";
+                else if (curTrend < lastTrend - 2) cmt2 = "최근 상대 견제를 많이 받거나 페이스가 조금 떨어졌습니다. 반등을 기대합니다!";
             }
             if(total_pts === 0) cmt2 = "경기 데이터가 축적되면 성장 추이를 분석해 드립니다.";
             document.getElementById('report-p-comment-2').innerText = cmt2;
@@ -1828,15 +1763,29 @@
                 <li>경기당 평균 <b>${avgGf}점</b>을 득점하고, <b>${avgGa}점</b>을 실점하고 있습니다.</li>
             `;
 
+            // v2.13: TOP 2 표 높이 완벽 통일 로직
             const genTopHtml = (title, arr, vFn, subFn=null) => {
                 let h = `<div style="background:#fff; border:1px solid #ddd; border-radius:8px; overflow:hidden;">
                     <div style="background:#f4f6f6; font-weight:bold; padding:8px; text-align:center; border-bottom:1px solid #ddd;">${title}</div>
                     <table style="width:100%; text-align:center; font-size:13px; border-collapse:collapse;">`;
-                arr.forEach((p, i) => { 
-                    let sub = subFn ? `<br><span style="font-size:10px; color:#888; font-weight:normal;">${subFn(p)}</span>` : '';
-                    h += `<tr><td style="padding:6px; border-bottom:1px solid #eee; width:40px; white-space:nowrap;">${i+1}위</td><td style="padding:6px; border-bottom:1px solid #eee; line-height:1.2;"><b>${p.name}</b>${sub}</td><td style="padding:6px; border-bottom:1px solid #eee; font-weight:bold;">${vFn(p)}</td></tr>`; 
+                
+                let displayArr = [arr[0] || null, arr[1] || null];
+                displayArr.forEach((p, i) => { 
+                    if (p) {
+                        let sub = subFn ? ` <span style="font-size:11px; color:#888; font-weight:normal;">(${subFn(p)})</span>` : '';
+                        h += `<tr>
+                                <td style="padding:8px 6px; border-bottom:1px solid #eee; width:40px; white-space:nowrap; color:#666;">${i+1}위</td>
+                                <td style="padding:8px 6px; border-bottom:1px solid #eee; text-align:left; padding-left:10px;"><b>${p.name}</b>${sub}</td>
+                                <td style="padding:8px 6px; border-bottom:1px solid #eee; font-weight:bold; width:45px;">${vFn(p)}</td>
+                              </tr>`;
+                    } else {
+                        h += `<tr>
+                                <td style="padding:8px 6px; border-bottom:1px solid #eee; width:40px; white-space:nowrap; color:#ccc;">${i+1}위</td>
+                                <td style="padding:8px 6px; border-bottom:1px solid #eee; text-align:left; padding-left:10px; color:#ccc;">-</td>
+                                <td style="padding:8px 6px; border-bottom:1px solid #eee; font-weight:bold; width:45px; color:#ccc;">-</td>
+                              </tr>`;
+                    }
                 });
-                if(arr.length===0) h += `<tr><td colspan="3" style="padding:10px; color:#aaa;">데이터 없음</td></tr>`;
                 return h + `</table></div>`;
             };
 
@@ -1877,39 +1826,26 @@
             }
             document.getElementById('team-rep-ai').innerHTML = aiCmt || "<li>충분한 데이터가 모이면 AI 분석이 제공됩니다.</li>";
 
-            let pCardsHtml = '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:15px; margin-top:20px;">';
+            // v2.13: 개인기록 카드 일렬 정렬 (가로 스크롤)
+            let pCardsHtml = '<div style="display:flex; gap:15px; margin-top:20px; overflow-x:auto; padding-bottom:15px; flex-wrap:nowrap;">';
             pArr.forEach(p => {
-                let cBadge = p.isCap ? `<span style="background:var(--red-team); color:white; padding:1px 6px; border-radius:4px; margin-left:6px; font-size:12px;">C</span>` : '';
+                let cBadge = p.isCap ? `<span style="background:var(--red-team); color:white; padding:2px 6px; border-radius:4px; margin-left:6px; font-size:11px;">C</span>` : '';
                 let cRt = p.cAtt > 0 ? ((p.catch/p.cAtt)*100).toFixed(1)+'%' : '0%';
                 let pRt = p.pAtt > 0 ? ((p.pass/p.pAtt)*100).toFixed(1)+'%' : '0%';
                 
                 pCardsHtml += `
-                <div class="player-card">
-                    <div class="player-card-header">
-                        <div class="player-card-team" style="color:${getTeamColor(team)};">${team}</div>
-                        <div class="player-card-pos">PLAYER</div>
+                <div style="background:#fff; border:1px solid #ddd; border-radius:8px; overflow:hidden; min-width: 190px; flex: 1 0 auto; box-shadow:0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="background:#f4f6f6; font-weight:900; padding:10px; text-align:center; border-bottom:1px solid #ddd; font-size:15px; color:var(--text-dark); display:flex; justify-content:center; align-items:center;">
+                        ${p.name} ${cBadge}
                     </div>
-                    <div class="player-card-name">${p.name}${cBadge}</div>
-                    <div class="player-card-grid">
-                        <div class="player-card-col">
-                            <div class="player-card-row"><div>BEST</div><div>${p.mvp}회</div></div>
-                            <div class="player-card-row"><div>러닝성공</div><div>${p.run}회</div></div>
-                            <div class="player-card-row"><div>캐치성공</div><div>${p.catch}회</div></div>
-                            <div class="player-card-row"><div>캐치성공률</div><div>${cRt}</div></div>
-                            <div class="player-card-row"><div>패스성공</div><div>${p.pass}회</div></div>
-                            <div class="player-card-row"><div>패스성공률</div><div>${pRt}</div></div>
-                            <div class="player-card-row" style="border:none;"><div>블리츠</div><div>${p.bz}회</div></div>
-                        </div>
-                        <div class="player-card-col">
-                            <div class="player-card-row"><div>터치다운</div><div>${p.td}회</div></div>
-                            <div class="player-card-row"><div>엑스트라포인트</div><div>${p.xp}회</div></div>
-                            <div class="player-card-row"><div>총득점</div><div style="font-weight:bold; color:var(--primary);">${p.td*6 + p.xp}점</div></div>
-                            <div class="player-card-row"><div>플래그 수비</div><div>${p.f}회</div></div>
-                            <div class="player-card-row"><div>커트 수비</div><div>${p.c}회</div></div>
-                            <div class="player-card-row"><div>인터셉트</div><div>${p.i}회</div></div>
-                            <div class="player-card-row" style="border:none;"><div>수비성공</div><div style="font-weight:bold; color:var(--text-dark);">${p.def}회</div></div>
-                        </div>
-                    </div>
+                    <table style="width:100%; text-align:center; font-size:12px; border-collapse:collapse;">
+                        <tr><td style="padding:8px; border-bottom:1px solid #eee; color:#666; text-align:left; padding-left:15px;">🏆 BEST</td><td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">${p.mvp}회</td></tr>
+                        <tr><td style="padding:8px; border-bottom:1px solid #eee; color:#666; text-align:left; padding-left:15px;">🔥 총 득점</td><td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold; color:var(--primary);">${p.td*6 + p.xp}점</td></tr>
+                        <tr><td style="padding:8px; border-bottom:1px solid #eee; color:#666; text-align:left; padding-left:15px;">🏃 러닝 성공</td><td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">${p.run}회</td></tr>
+                        <tr><td style="padding:8px; border-bottom:1px solid #eee; color:#666; text-align:left; padding-left:15px;">👐 캐치 성공</td><td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">${p.catch}회 <span style="font-size:10px;color:#999;">(${cRt})</span></td></tr>
+                        <tr><td style="padding:8px; border-bottom:1px solid #eee; color:#666; text-align:left; padding-left:15px;">🎯 패스 성공</td><td style="padding:8px; border-bottom:1px solid #eee; font-weight:bold;">${p.pass}회 <span style="font-size:10px;color:#999;">(${pRt})</span></td></tr>
+                        <tr><td style="padding:8px; color:#666; text-align:left; padding-left:15px;">🛡️ 수비 성공</td><td style="padding:8px; font-weight:bold; color:var(--blue-team);">${p.def}회</td></tr>
+                    </table>
                 </div>`;
             });
             pCardsHtml += '</div>';
